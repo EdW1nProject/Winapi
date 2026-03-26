@@ -18,7 +18,12 @@
             --text-muted: #94a3b8;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+        }
 
         body {
             background-color: var(--bg-color);
@@ -33,7 +38,11 @@
             background-attachment: fixed;
         }
 
-        header { text-align: center; padding: 4rem 2rem 2rem; animation: fadeInDown 1s ease-out; }
+        header { 
+            text-align: center; 
+            padding: 4rem 2rem 2rem; 
+            animation: fadeInDown 1s ease-out; 
+        }
         
         h1 {
             font-size: 3rem;
@@ -55,6 +64,7 @@
             -webkit-backdrop-filter: blur(16px);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             animation: slideUp 0.8s ease-out;
+            margin-bottom: 3rem;
         }
 
         .tabs {
@@ -119,7 +129,7 @@
             background: rgba(0,0,0,0.4);
             border: 1px solid var(--card-border);
             display: none;
-            word-break: break-all;
+            word-break: break-word;
         }
 
         /* Loading Animation */
@@ -132,6 +142,50 @@
             border-radius: 50%;
             margin: 0 auto;
             animation: rotation 1s linear infinite;
+        }
+
+        /* Media Grid untuk Hasil Download */
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .media-item {
+            background: rgba(255,255,255,0.05);
+            padding: 0.8rem;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid var(--card-border);
+        }
+        
+        .media-item img, .media-item video {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+            aspect-ratio: 9/16;
+            object-fit: cover;
+            background: #000;
+        }
+        
+        .btn-download {
+            display: inline-block;
+            width: 100%;
+            padding: 0.6rem;
+            background: var(--primary);
+            color: var(--bg-color);
+            text-decoration: none;
+            font-weight: 800;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .btn-download:hover {
+            background: white;
+            box-shadow: 0 0 15px var(--primary);
+            transform: translateY(-2px);
         }
 
         @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -167,6 +221,7 @@
     <script>
         let currentMode = 'tiktok';
 
+        // Fungsi untuk mengganti mode TikTok / Discord
         function switchTab(mode) {
             currentMode = mode;
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -178,38 +233,75 @@
             document.getElementById('resultBox').style.display = 'none';
         }
 
+        // Fungsi utama untuk memproses URL
         async function processDownload() {
             const urlInput = document.getElementById('urlInput').value;
             const btnText = document.getElementById('btnText');
             const loader = document.getElementById('loader');
             const resultBox = document.getElementById('resultBox');
 
-            if (!urlInput) return alert('Silakan masukkan URL terlebih dahulu!');
+            if (!urlInput) {
+                alert('Silakan masukkan URL terlebih dahulu!');
+                return;
+            }
 
-            // UI Loading State
+            // Tampilkan animasi loading
             btnText.style.display = 'none';
             loader.style.display = 'block';
             resultBox.style.display = 'none';
 
             try {
-                // Memanggil API Vercel Serverless kita sendiri
+                // Memanggil endpoint Vercel API
                 const response = await fetch(`/api/${currentMode}?url=${encodeURIComponent(urlInput)}`);
                 const data = await response.json();
 
                 resultBox.style.display = 'block';
+                
                 if (data.success) {
+                    let mediaHTML = '';
+                    
+                    // Render UI jika data berupa gambar (korsel) atau video
+                    if (data.type === 'image' || data.type === 'video') {
+                        mediaHTML = `<div class="media-grid">`;
+                        data.media.forEach((link, index) => {
+                            mediaHTML += `
+                                <div class="media-item">
+                                    ${data.type === 'image' 
+                                        ? `<img src="${link}" alt="TikTok Media">` 
+                                        : `<video src="${link}" controls></video>`}
+                                    <a href="${link}" target="_blank" class="btn-download">Unduh ${data.type === 'image' ? 'Gambar' : 'Video'}</a>
+                                </div>
+                            `;
+                        });
+                        mediaHTML += `</div>`;
+                    } 
+                    // Render UI jika data berupa file (Discord)
+                    else if (data.type === 'file') {
+                        mediaHTML = `
+                            <div class="media-item" style="margin-top: 1rem;">
+                                <a href="${data.media[0]}" target="_blank" class="btn-download" style="padding: 1rem; font-size: 1.1rem;">Buka / Unduh File Discord</a>
+                            </div>
+                        `;
+                    }
+
+                    // Tampilkan judul dan author jika ada
                     resultBox.innerHTML = `
-                        <h3 style="color: #4ade80; margin-bottom: 10px;">Berhasil!</h3>
-                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px;">Data berhasil diekstrak.</p>
-                        <a href="${data.download_url}" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: bold;">[Klik di sini untuk mengunduh / melihat data]</a>
+                        <div style="border-bottom: 1px solid var(--card-border); padding-bottom: 1rem; margin-bottom: 1rem;">
+                            <h3 style="color: #4ade80; margin-bottom: 8px;">Berhasil Diproses!</h3>
+                            ${data.author ? `<p style="color: var(--text-muted); font-size: 0.95rem;"><strong>Author:</strong> @${data.author}</p>` : ''}
+                            ${data.title ? `<p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 5px; line-height: 1.4;">${data.title}</p>` : ''}
+                        </div>
+                        ${mediaHTML}
                     `;
                 } else {
-                    resultBox.innerHTML = `<p style="color: #ef4444;">Error: ${data.message}</p>`;
+                    // Tampilkan pesan error dari API
+                    resultBox.innerHTML = `<p style="color: #ef4444; font-weight: 600;">Error: ${data.message}</p>`;
                 }
             } catch (error) {
                 resultBox.style.display = 'block';
-                resultBox.innerHTML = `<p style="color: #ef4444;">Gagal terhubung ke API.</p>`;
+                resultBox.innerHTML = `<p style="color: #ef4444; font-weight: 600;">Gagal memproses data. Pastikan API Vercel sudah berjalan.</p>`;
             } finally {
+                // Matikan animasi loading
                 btnText.style.display = 'block';
                 loader.style.display = 'none';
             }
