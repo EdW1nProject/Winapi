@@ -39,7 +39,7 @@
             <div class="hidden md:flex space-x-8 text-sm font-medium">
                 <a href="#dashboard" class="hover:text-purple-400 transition-colors">Dashboard</a>
                 <a href="#endpoints" class="hover:text-purple-400 transition-colors">Endpoints</a>
-                <a href="#integration" class="hover:text-purple-400 transition-colors">Bot Integration</a>
+                <a href="#integration" class="hover:text-purple-400 transition-colors">Integration</a>
             </div>
             <button class="px-6 py-2 rounded-full bg-white text-black font-semibold hover:bg-gray-200 transition-transform transform hover:scale-105">
                 Login
@@ -83,38 +83,72 @@
     <section id="endpoints" class="py-16 px-6 relative z-10">
         <div class="max-w-5xl mx-auto">
             <div class="text-center mb-12 fade-in-up">
-                <h2 class="text-3xl font-bold mb-4">Premium Endpoints</h2>
-                <p class="text-gray-400">Layanan downloader paling stabil untuk bot Anda.</p>
+                <h2 class="text-3xl font-bold mb-4">Live API Testing</h2>
+                <p class="text-gray-400">Uji coba langsung respons API kami sebelum diintegrasikan ke kode Anda.</p>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 fade-in-up delay-100">
-                <div class="bg-glass backdrop-blur-xl border border-glassBorder rounded-2xl p-6 hover:border-pink-500 transition-colors group cursor-pointer">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 fade-in-up delay-100">
+                
+                <div class="bg-glass backdrop-blur-xl border border-glassBorder rounded-2xl p-6 hover:border-pink-500/50 transition-colors group">
                     <div class="flex items-center justify-between mb-4">
-                        <div class="w-12 h-12 bg-black/50 rounded-xl flex items-center justify-center text-pink-500 group-hover:scale-110 transition-transform">
-                            <i class="fa-brands fa-tiktok text-2xl"></i>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-black/50 rounded-xl flex items-center justify-center text-pink-500 group-hover:scale-110 transition-transform">
+                                <i class="fa-brands fa-tiktok text-2xl"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold text-white">TikTok Downloader</h4>
                         </div>
                         <span class="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full border border-green-500/30">Active</span>
                     </div>
-                    <h4 class="text-xl font-semibold mb-2 text-white">TikTok Downloader</h4>
-                    <p class="text-gray-400 text-sm mb-4">Download Video (No Watermark), Audio, dan Foto Slide dengan resolusi original.</p>
-                    <div class="flex items-center gap-2 text-xs font-mono bg-black/60 p-3 rounded-lg text-gray-300 border border-gray-800">
-                        <span class="text-purple-400 font-bold">GET</span> /api/dl/tiktok?url=...
+                    
+                    <div class="mt-6 border-t border-gray-800 pt-5">
+                        <label class="text-xs text-gray-400 mb-2 block font-mono uppercase tracking-wider">Test URL Endpoint</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="tiktokUrl" placeholder="https://vt.tiktok.com/..." class="w-full bg-black/50 border border-gray-700 rounded-lg py-3 px-4 text-sm focus:outline-none focus:border-pink-500 text-gray-300 transition-colors">
+                            <button onclick="testApi('tiktok', this)" class="bg-pink-600 hover:bg-pink-500 text-white px-6 py-3 rounded-lg text-sm font-semibold transition-colors flex items-center justify-center min-w-[100px]">
+                                Test
+                            </button>
+                        </div>
+                        
+                        <div id="tiktokResultBox" class="hidden mt-4 bg-[#050505] border border-gray-800 rounded-xl p-4 overflow-x-auto shadow-inner transition-all duration-300">
+                            <div class="flex justify-between items-center mb-2 border-b border-gray-800 pb-2">
+                                <span class="text-xs text-gray-500 font-mono">Response JSON</span>
+                                <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse" id="tiktokStatusDot"></div>
+                            </div>
+                            <pre><code id="tiktokResult" class="text-xs font-mono leading-relaxed"></code></pre>
+                        </div>
                     </div>
                 </div>
 
-                <div class="bg-glass backdrop-blur-xl border border-glassBorder rounded-2xl p-6 hover:border-indigo-500 transition-colors group cursor-pointer">
+                <div class="bg-glass backdrop-blur-xl border border-glassBorder rounded-2xl p-6 hover:border-indigo-500/50 transition-colors group">
                     <div class="flex items-center justify-between mb-4">
-                        <div class="w-12 h-12 bg-black/50 rounded-xl flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-transform">
-                            <i class="fa-brands fa-discord text-2xl"></i>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-black/50 rounded-xl flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-transform">
+                                <i class="fa-brands fa-discord text-2xl"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold text-white">Discord Fetcher</h4>
                         </div>
                         <span class="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full border border-green-500/30">Active</span>
                     </div>
-                    <h4 class="text-xl font-semibold mb-2 text-white">Discord Media Fetcher</h4>
-                    <p class="text-gray-400 text-sm mb-4">Bypass link CDN Discord dan download attachment media secara langsung (Anti-Link Expired).</p>
-                    <div class="flex items-center gap-2 text-xs font-mono bg-black/60 p-3 rounded-lg text-gray-300 border border-gray-800">
-                        <span class="text-purple-400 font-bold">GET</span> /api/dl/discord?url=...
+                    
+                    <div class="mt-6 border-t border-gray-800 pt-5">
+                        <label class="text-xs text-gray-400 mb-2 block font-mono uppercase tracking-wider">Test Media URL</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="discordUrl" placeholder="https://cdn.discordapp.com/..." class="w-full bg-black/50 border border-gray-700 rounded-lg py-3 px-4 text-sm focus:outline-none focus:border-indigo-500 text-gray-300 transition-colors">
+                            <button onclick="testApi('discord', this)" class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-lg text-sm font-semibold transition-colors flex items-center justify-center min-w-[100px]">
+                                Test
+                            </button>
+                        </div>
+                        
+                        <div id="discordResultBox" class="hidden mt-4 bg-[#050505] border border-gray-800 rounded-xl p-4 overflow-x-auto shadow-inner transition-all duration-300">
+                            <div class="flex justify-between items-center mb-2 border-b border-gray-800 pb-2">
+                                <span class="text-xs text-gray-500 font-mono">Response JSON</span>
+                                <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse" id="discordStatusDot"></div>
+                            </div>
+                            <pre><code id="discordResult" class="text-xs font-mono leading-relaxed"></code></pre>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -122,10 +156,8 @@
     <section id="integration" class="py-16 px-6 relative z-10 mb-20">
         <div class="max-w-5xl mx-auto">
             <div class="text-center mb-12 fade-in-up">
-                <h2 class="text-4xl font-bold mb-4">Seamless Bot Integration</h2>
-                <p class="text-gray-400">Copy dan paste kode di bawah ini ke dalam project Node.js Anda.</p>
+                <h2 class="text-4xl font-bold mb-4">Integration Code</h2>
             </div>
-
             <div class="bg-[#0d0d0d] rounded-2xl border border-glassBorder overflow-hidden shadow-2xl fade-in-up delay-200">
                 <div class="bg-[#1a1a1a] px-4 py-3 flex items-center justify-between border-b border-glassBorder">
                     <div class="flex space-x-2">
@@ -142,31 +174,7 @@
                     </button>
                 </div>
                 <div class="p-6 overflow-x-auto">
-<pre><code class="font-mono text-sm leading-relaxed text-gray-300" id="codeSnippet">
-<span class="text-purple-400">const</span> axios = <span class="text-blue-300">require</span>(<span class="text-green-300">'axios'</span>);
-
-<span class="text-gray-500">// WINYUK API - TikTok Downloader Example</span>
-<span class="text-purple-400">const</span> API_KEY = <span class="text-green-300">'YOUR_API_KEY'</span>;
-<span class="text-purple-400">const</span> TIKTOK_URL = <span class="text-green-300">'https://vt.tiktok.com/ZSxxxxxxx/'</span>;
-
-<span class="text-purple-400">async function</span> <span class="text-blue-400">downloadTikTok</span>(url) {
-    <span class="text-purple-400">try</span> {
-        <span class="text-purple-400">const</span> res = <span class="text-purple-400">await</span> axios.get(<span class="text-cyan-300">`https://api.winyuk.com/v1/dl/tiktok?url=${url}`</span>, {
-            headers: { <span class="text-green-300">'Authorization'</span>: <span class="text-cyan-300">`Bearer ${API_KEY}`</span> }
-        });
-        
-        <span class="text-blue-300">console</span>.log(<span class="text-green-300">'Title:'</span>, res.data.title);
-        <span class="text-blue-300">console</span>.log(<span class="text-green-300">'Video (No WM):'</span>, res.data.video_nowm);
-        <span class="text-purple-400">if</span>(res.data.is_slide) {
-             <span class="text-blue-300">console</span>.log(<span class="text-green-300">'Photos:'</span>, res.data.images); <span class="text-gray-500">// Array of images</span>
-        }
-    } <span class="text-purple-400">catch</span> (err) {
-        <span class="text-blue-300">console</span>.error(<span class="text-green-300">'Error:'</span>, err.response?.data || err.message);
-    }
-}
-
-downloadTikTok(TIKTOK_URL);
-</code></pre>
+                    <pre><code class="font-mono text-sm leading-relaxed text-gray-300" id="codeSnippet">...</code></pre>
                 </div>
             </div>
         </div>
