@@ -37,6 +37,112 @@
             position: relative;
         }
 
+        /* --- PRELOADER ANIMATION START --- */
+        #preloader {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: var(--bg-base);
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s;
+        }
+
+        #preloader.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-rings {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin-bottom: 40px;
+        }
+
+        .loader-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 4px solid transparent;
+        }
+
+        .loader-ring:nth-child(1) {
+            inset: 0;
+            border-top-color: var(--primary);
+            border-bottom-color: var(--primary);
+            animation: spinCore 2s linear infinite;
+            filter: drop-shadow(0 0 15px var(--primary));
+        }
+
+        .loader-ring:nth-child(2) {
+            inset: 15px;
+            border-left-color: var(--secondary);
+            border-right-color: var(--secondary);
+            animation: spinCore 1.5s linear infinite reverse;
+            filter: drop-shadow(0 0 15px var(--secondary));
+        }
+
+        .loader-ring:nth-child(3) {
+            inset: 35px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            animation: pulseGlow 2s ease-in-out infinite alternate;
+        }
+
+        .loader-text-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .loader-text {
+            font-family: 'Fira Code', monospace;
+            color: var(--primary);
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(14, 165, 233, 0.6);
+        }
+
+        .loader-text::after {
+            content: '_';
+            animation: blinkCursor 0.8s infinite;
+        }
+
+        .loading-bar-container {
+            width: 250px;
+            height: 4px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loading-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            box-shadow: 0 0 15px var(--primary);
+            animation: loadProgress 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes spinCore { 100% { transform: rotate(360deg); } }
+        @keyframes blinkCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        @keyframes loadProgress {
+            0% { width: 0%; }
+            30% { width: 40%; }
+            60% { width: 70%; }
+            100% { width: 100%; }
+        }
+        /* --- PRELOADER ANIMATION END --- */
+
         /* Animasi Latar Belakang Kotak-Kotak (Coder Grid) */
         body::before {
             content: '';
@@ -67,6 +173,7 @@
             text-align: center; 
             padding: 4rem 2rem 2rem; 
             animation: slideDownFade 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+            animation-delay: 2.5s; /* Delay until preloader finishes */
             opacity: 0;
             transform: translateY(-40px);
         }
@@ -99,6 +206,8 @@
             max-width: 650px;
             margin-bottom: 4rem;
             animation: floatContainer 6s ease-in-out infinite;
+            opacity: 0;
+            animation: revealWrapper 1s cubic-bezier(0.16, 1, 0.3, 1) forwards 2.7s, floatContainer 6s ease-in-out infinite 3.7s;
         }
 
         .wrapper::before {
@@ -246,7 +355,7 @@
             animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Custom Animasi Loading */
+        /* Custom Animasi Loading Tombol*/
         .loader {
             display: none;
             width: 24px;
@@ -313,7 +422,7 @@
             border-color: var(--primary);
         }
 
-        /* Kumpulan Keyframes untuk Animasi Mewah */
+        /* Kumpulan Keyframes */
         @keyframes gridMove {
             0% { transform: translateY(0); }
             100% { transform: translateY(40px); }
@@ -324,6 +433,9 @@
         }
         @keyframes slideDownFade {
             to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes revealWrapper {
+            to { opacity: 1; }
         }
         @keyframes shineText {
             to { background-position: 200% center; }
@@ -351,6 +463,20 @@
     </style>
 </head>
 <body>
+
+    <div id="preloader">
+        <div class="loader-rings">
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+        </div>
+        <div class="loader-text-container">
+            <div class="loader-text" id="loader-text-val">> INITIALIZING_SYSTEM</div>
+            <div class="loading-bar-container">
+                <div class="loading-bar"></div>
+            </div>
+        </div>
+    </div>
 
     <header>
         <h1>WINYUK API</h1>
@@ -382,6 +508,43 @@
     </div>
 
     <script>
+        // Logika Preloader Coder
+        window.addEventListener('DOMContentLoaded', () => {
+            const preloader = document.getElementById('preloader');
+            const loaderText = document.getElementById('loader-text-val');
+            
+            // Array teks terminal yang akan berganti
+            const messages = [
+                "> INITIALIZING_SYSTEM...",
+                "> BYPASSING_SECURITY...",
+                "> ESTABLISHING_CONNECTION...",
+                "> API_ENDPOINT_REACHED...",
+                "> SYSTEM_READY_"
+            ];
+
+            let msgIndex = 0;
+            const msgInterval = setInterval(() => {
+                msgIndex++;
+                if(msgIndex < messages.length) {
+                    loaderText.innerText = messages[messages.length - 1] === messages[msgIndex] 
+                        ? messages[msgIndex] 
+                        : messages[msgIndex];
+                }
+            }, 500); // Ganti teks tiap 0.5 detik
+
+            // Sembunyikan preloader setelah 2.8 detik
+            setTimeout(() => {
+                clearInterval(msgInterval);
+                preloader.classList.add('fade-out');
+                
+                // Hapus elemen dari DOM setelah animasi fade out selesai
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 600);
+            }, 2800); 
+        });
+
+        // Logika Tab dan Fetch Data
         let currentMode = 'tiktok';
 
         function switchTab(mode) {
