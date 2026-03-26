@@ -37,7 +37,7 @@
             position: relative;
         }
 
-        /* --- PRELOADER ANIMATION START --- */
+        /* --- PRELOADER ANIMATION --- */
         #preloader {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -54,411 +54,184 @@
             transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s;
         }
 
-        #preloader.fade-out {
-            opacity: 0;
-            visibility: hidden;
-        }
+        #preloader.fade-out { opacity: 0; visibility: hidden; }
 
-        .loader-rings {
-            position: relative;
-            width: 120px;
-            height: 120px;
-            margin-bottom: 40px;
-        }
-
-        .loader-ring {
-            position: absolute;
-            border-radius: 50%;
-            border: 4px solid transparent;
-        }
-
+        .loader-rings { position: relative; width: 120px; height: 120px; margin-bottom: 40px; }
+        .loader-ring { position: absolute; border-radius: 50%; border: 4px solid transparent; }
+        
         .loader-ring:nth-child(1) {
-            inset: 0;
-            border-top-color: var(--primary);
-            border-bottom-color: var(--primary);
-            animation: spinCore 2s linear infinite;
-            filter: drop-shadow(0 0 15px var(--primary));
+            inset: 0; border-top-color: var(--primary); border-bottom-color: var(--primary);
+            animation: spinCore 2s linear infinite; filter: drop-shadow(0 0 15px var(--primary));
         }
-
         .loader-ring:nth-child(2) {
-            inset: 15px;
-            border-left-color: var(--secondary);
-            border-right-color: var(--secondary);
-            animation: spinCore 1.5s linear infinite reverse;
-            filter: drop-shadow(0 0 15px var(--secondary));
+            inset: 15px; border-left-color: var(--secondary); border-right-color: var(--secondary);
+            animation: spinCore 1.5s linear infinite reverse; filter: drop-shadow(0 0 15px var(--secondary));
         }
-
         .loader-ring:nth-child(3) {
-            inset: 35px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.5);
+            inset: 35px; background: rgba(255, 255, 255, 0.1); border: 2px solid rgba(255, 255, 255, 0.5);
             animation: pulseGlow 2s ease-in-out infinite alternate;
         }
 
-        .loader-text-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-
+        .loader-text-container { display: flex; flex-direction: column; align-items: center; gap: 15px; }
         .loader-text {
-            font-family: 'Fira Code', monospace;
-            color: var(--primary);
-            font-size: 1.1rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            text-shadow: 0 0 10px rgba(14, 165, 233, 0.6);
+            font-family: 'Fira Code', monospace; color: var(--primary); font-size: 1.1rem;
+            letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 0 10px rgba(14, 165, 233, 0.6);
         }
-
-        .loader-text::after {
-            content: '_';
-            animation: blinkCursor 0.8s infinite;
-        }
+        .loader-text::after { content: '_'; animation: blinkCursor 0.8s infinite; }
 
         .loading-bar-container {
-            width: 250px;
-            height: 4px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 2px;
-            overflow: hidden;
-            position: relative;
+            width: 250px; height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px;
+            overflow: hidden; position: relative;
         }
-
         .loading-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            box-shadow: 0 0 15px var(--primary);
-            animation: loadProgress 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            height: 100%; width: 0%; background: linear-gradient(90deg, var(--primary), var(--secondary));
+            box-shadow: 0 0 15px var(--primary); animation: loadProgress 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
         @keyframes spinCore { 100% { transform: rotate(360deg); } }
         @keyframes blinkCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        @keyframes loadProgress {
-            0% { width: 0%; }
-            30% { width: 40%; }
-            60% { width: 70%; }
-            100% { width: 100%; }
-        }
-        /* --- PRELOADER ANIMATION END --- */
+        @keyframes loadProgress { 0% { width: 0%; } 30% { width: 40%; } 60% { width: 70%; } 100% { width: 100%; } }
 
-        /* Animasi Latar Belakang Kotak-Kotak (Coder Grid) */
+        /* --- BACKGROUND & HEADER --- */
         body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background-image: 
-                linear-gradient(var(--grid-color) 1px, transparent 1px),
-                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-            background-size: 40px 40px;
-            animation: gridMove 20s linear infinite;
-            z-index: -2;
+            content: ''; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: linear-gradient(var(--grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 40px 40px; animation: gridMove 20s linear infinite; z-index: -2;
         }
-
-        /* Efek Cahaya Radial di Belakang */
         body::after {
-            content: '';
-            position: fixed;
-            top: 50%; left: 50%;
-            width: 80vw; height: 80vh;
-            transform: translate(-50%, -50%);
-            background: radial-gradient(circle, rgba(14,165,233,0.15) 0%, rgba(139,92,246,0.05) 40%, transparent 70%);
-            z-index: -1;
-            pointer-events: none;
-            animation: pulseGlow 8s ease-in-out infinite alternate;
+            content: ''; position: fixed; top: 50%; left: 50%; width: 80vw; height: 80vh;
+            transform: translate(-50%, -50%); background: radial-gradient(circle, rgba(14,165,233,0.15) 0%, rgba(139,92,246,0.05) 40%, transparent 70%);
+            z-index: -1; pointer-events: none; animation: pulseGlow 8s ease-in-out infinite alternate;
         }
 
         header { 
-            text-align: center; 
-            padding: 4rem 2rem 2rem; 
+            text-align: center; padding: 4rem 2rem 2rem; 
             animation: slideDownFade 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
-            animation-delay: 2.5s; /* Delay until preloader finishes */
-            opacity: 0;
-            transform: translateY(-40px);
+            animation-delay: 2.5s; opacity: 0; transform: translateY(-40px);
         }
         
         h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            background: linear-gradient(45deg, #38bdf8, #818cf8, #c084fc);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
+            font-size: 3.5rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px;
+            background: linear-gradient(45deg, #38bdf8, #818cf8, #c084fc); background-size: 200% auto;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem;
             animation: shineText 5s linear infinite;
         }
 
-        .subtitle {
-            font-family: 'Fira Code', monospace;
-            color: var(--primary);
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            opacity: 0.8;
-        }
+        .subtitle { font-family: 'Fira Code', monospace; color: var(--primary); font-size: 0.9rem; letter-spacing: 1px; opacity: 0.8; }
 
-        /* Kontainer Utama dengan Efek Neon Glow */
+        /* --- MAIN FORM CONTAINER --- */
         .wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 650px;
-            margin-bottom: 4rem;
-            animation: floatContainer 6s ease-in-out infinite;
-            opacity: 0;
-            animation: revealWrapper 1s cubic-bezier(0.16, 1, 0.3, 1) forwards 2.7s, floatContainer 6s ease-in-out infinite 3.7s;
+            position: relative; width: 100%; max-width: 650px; margin-bottom: 4rem; opacity: 0;
+            animation: revealElement 1s cubic-bezier(0.16, 1, 0.3, 1) forwards 2.7s, floatContainer 6s ease-in-out infinite 3.7s;
         }
-
         .wrapper::before {
-            content: '';
-            position: absolute;
-            inset: -2px;
+            content: ''; position: absolute; inset: -2px;
             background: linear-gradient(45deg, var(--primary), var(--secondary), transparent, var(--primary));
-            border-radius: 26px;
-            z-index: -1;
-            filter: blur(12px);
-            opacity: 0.4;
-            animation: borderSpin 6s linear infinite;
+            border-radius: 26px; z-index: -1; filter: blur(12px); opacity: 0.4; animation: borderSpin 6s linear infinite;
         }
-
         .container {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 24px;
-            padding: 2.5rem;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            box-shadow: inset 0 0 20px rgba(255,255,255,0.02);
+            background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 24px; padding: 2.5rem;
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: inset 0 0 20px rgba(255,255,255,0.02);
         }
 
-        /* Navigasi Tab */
-        .tabs {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            background: rgba(0,0,0,0.4);
-            padding: 0.5rem;
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-
+        /* --- TABS & INPUTS --- */
+        .tabs { display: flex; gap: 1rem; margin-bottom: 2rem; background: rgba(0,0,0,0.4); padding: 0.5rem; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); }
         .tab-btn {
-            flex: 1;
-            padding: 0.8rem;
-            border: none;
-            background: transparent;
-            color: var(--text-muted);
-            font-weight: 600;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            overflow: hidden;
+            flex: 1; padding: 0.8rem; border: none; background: transparent; color: var(--text-muted); font-weight: 600;
+            border-radius: 12px; cursor: pointer; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden;
         }
-
-        .tab-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255,255,255,0.1);
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-            z-index: 0;
-        }
-
+        .tab-btn::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.1); transform: translateY(100%); transition: transform 0.3s ease; z-index: 0; }
         .tab-btn:hover::before { transform: translateY(0); }
         .tab-btn span { position: relative; z-index: 1; }
+        .tab-btn.active[data-target="tiktok"] { background: var(--tiktok); color: white; box-shadow: 0 0 20px rgba(255, 0, 80, 0.4); transform: scale(1.02); }
+        .tab-btn.active[data-target="discord"] { background: var(--discord); color: white; box-shadow: 0 0 20px rgba(88, 101, 242, 0.4); transform: scale(1.02); }
 
-        .tab-btn.active[data-target="tiktok"] { 
-            background: var(--tiktok); 
-            color: white; 
-            box-shadow: 0 0 20px rgba(255, 0, 80, 0.4); 
-            transform: scale(1.02);
-        }
-        .tab-btn.active[data-target="discord"] { 
-            background: var(--discord); 
-            color: white; 
-            box-shadow: 0 0 20px rgba(88, 101, 242, 0.4);
-            transform: scale(1.02);
-        }
-
-        /* Input Bercahaya */
         .input-group { position: relative; margin-bottom: 1.5rem; }
-        
         input {
-            width: 100%;
-            padding: 1.2rem 1.5rem;
-            background: rgba(0,0,0,0.5);
-            border: 2px solid rgba(255,255,255,0.08);
-            border-radius: 16px;
-            color: white;
-            font-size: 1rem;
-            font-family: 'Fira Code', monospace;
-            outline: none;
-            transition: all 0.3s ease;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+            width: 100%; padding: 1.2rem 1.5rem; background: rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.08);
+            border-radius: 16px; color: white; font-size: 1rem; font-family: 'Fira Code', monospace; outline: none;
+            transition: all 0.3s ease; box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
         }
+        input:focus { border-color: var(--primary); background: rgba(0,0,0,0.7); box-shadow: 0 0 25px rgba(14, 165, 233, 0.2), inset 0 2px 5px rgba(0,0,0,0.5); }
 
-        input:focus { 
-            border-color: var(--primary); 
-            background: rgba(0,0,0,0.7);
-            box-shadow: 0 0 25px rgba(14, 165, 233, 0.2), inset 0 2px 5px rgba(0,0,0,0.5); 
-        }
-
-        /* Tombol Animasi */
         .btn-process {
-            width: 100%;
-            padding: 1.2rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            border-radius: 16px;
-            font-size: 1.1rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
+            width: 100%; padding: 1.2rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white;
+            border: none; border-radius: 16px; font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+            cursor: pointer; transition: all 0.4s ease; position: relative; overflow: hidden;
         }
-
         .btn-process::after {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: linear-gradient(transparent, rgba(255,255,255,0.3), transparent);
-            transform: rotate(45deg) translateY(-100%);
-            transition: all 0.6s ease;
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(transparent, rgba(255,255,255,0.3), transparent); transform: rotate(45deg) translateY(-100%); transition: all 0.6s ease;
         }
+        .btn-process:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(139, 92, 246, 0.4); }
+        .btn-process:hover::after { transform: rotate(45deg) translateY(100%); }
 
-        .btn-process:hover { 
-            transform: translateY(-3px); 
-            box-shadow: 0 15px 30px rgba(139, 92, 246, 0.4); 
-        }
+        /* --- RESULTS --- */
+        .result-box { margin-top: 2rem; padding: 1.5rem; border-radius: 16px; background: rgba(0,0,0,0.6); border: 1px solid var(--card-border); display: none; word-break: break-word; animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .loader { display: none; width: 24px; height: 24px; border: 3px solid rgba(255,255,255,0.1); border-bottom-color: white; border-radius: 50%; margin: 0 auto; animation: rotation 0.8s linear infinite; }
+        .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+        .media-item { background: rgba(255,255,255,0.03); padding: 0.8rem; border-radius: 16px; text-align: center; border: 1px solid rgba(255,255,255,0.05); transition: transform 0.3s ease; animation: popIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards; }
+        .media-item:hover { transform: scale(1.05); border-color: var(--primary); background: rgba(14, 165, 233, 0.05); }
+        .media-item img, .media-item video { width: 100%; border-radius: 10px; margin-bottom: 1rem; aspect-ratio: 9/16; object-fit: cover; background: #000; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .btn-download { display: inline-block; width: 100%; padding: 0.7rem; background: rgba(255,255,255,0.1); color: var(--text-main); text-decoration: none; font-weight: 600; border-radius: 10px; font-size: 0.85rem; transition: all 0.3s; border: 1px solid transparent; }
+        .btn-download:hover { background: var(--primary); color: #fff; box-shadow: 0 0 20px rgba(14, 165, 233, 0.4); border-color: var(--primary); }
 
-        .btn-process:hover::after {
-            transform: rotate(45deg) translateY(100%);
+        /* --- API INTEGRATION SHOWCASE SECTION --- */
+        .integration-section {
+            width: 100%; max-width: 650px; margin: 0 auto 5rem; opacity: 0; transform: translateY(40px);
+            animation: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) forwards 3.2s; /* Muncul setelah form utama */
         }
-
-        /* Area Hasil */
-        .result-box {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            border-radius: 16px;
-            background: rgba(0,0,0,0.6);
-            border: 1px solid var(--card-border);
-            display: none;
-            word-break: break-word;
-            animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        .integration-title {
+            text-align: center; font-family: 'Fira Code', monospace; color: var(--text-muted); margin-bottom: 1.5rem;
+            font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px;
         }
-
-        /* Custom Animasi Loading Tombol*/
-        .loader {
-            display: none;
-            width: 24px;
-            height: 24px;
-            border: 3px solid rgba(255,255,255,0.1);
-            border-bottom-color: white;
-            border-radius: 50%;
-            margin: 0 auto;
-            animation: rotation 0.8s linear infinite;
+        .code-window {
+            background: #0d1117; border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.05); position: relative;
+            transition: transform 0.4s, box-shadow 0.4s;
         }
-
-        /* Media Grid */
-        .media-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 1rem;
-            margin-top: 1.5rem;
+        .code-window:hover {
+            transform: translateY(-8px); box-shadow: 0 30px 60px rgba(14, 165, 233, 0.2), inset 0 0 0 1px var(--primary);
         }
+        .code-header {
+            background: #161b22; padding: 1rem 1.2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--card-border);
+        }
+        .mac-dots { display: flex; gap: 8px; }
+        .mac-dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-red { background: #ff5f56; box-shadow: 0 0 10px rgba(255, 95, 86, 0.5); }
+        .dot-yellow { background: #ffbd2e; box-shadow: 0 0 10px rgba(255, 189, 46, 0.5); }
+        .dot-green { background: #27c93f; box-shadow: 0 0 10px rgba(39, 201, 63, 0.5); }
+        .code-title { font-family: 'Fira Code', monospace; color: var(--text-muted); font-size: 0.9rem; }
         
-        .media-item {
-            background: rgba(255,255,255,0.03);
-            padding: 0.8rem;
-            border-radius: 16px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: transform 0.3s ease;
-            animation: popIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
-        }
-
-        .media-item:hover {
-            transform: scale(1.05);
-            border-color: var(--primary);
-            background: rgba(14, 165, 233, 0.05);
-        }
-        
-        .media-item img, .media-item video {
-            width: 100%;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-            aspect-ratio: 9/16;
-            object-fit: cover;
-            background: #000;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        }
-        
-        .btn-download {
-            display: inline-block;
-            width: 100%;
-            padding: 0.7rem;
-            background: rgba(255,255,255,0.1);
-            color: var(--text-main);
-            text-decoration: none;
-            font-weight: 600;
-            border-radius: 10px;
-            font-size: 0.85rem;
+        .btn-copy {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-main);
+            padding: 0.4rem 1rem; border-radius: 8px; cursor: pointer; font-family: 'Fira Code', monospace; font-size: 0.8rem;
             transition: all 0.3s;
-            border: 1px solid transparent;
+        }
+        .btn-copy:hover { background: var(--primary); border-color: var(--primary); box-shadow: 0 0 15px var(--primary); color: white; }
+        
+        .code-content {
+            padding: 1.5rem; overflow-x: auto; font-family: 'Fira Code', monospace; font-size: 0.95rem; line-height: 1.7; color: #c9d1d9;
         }
         
-        .btn-download:hover {
-            background: var(--primary);
-            color: #fff;
-            box-shadow: 0 0 20px rgba(14, 165, 233, 0.4);
-            border-color: var(--primary);
-        }
+        /* Custom Syntax Highlighting */
+        .sy-kw { color: #ff7b72; } /* Keyword: const, await, try, catch */
+        .sy-fn { color: #d2a8ff; } /* Function: fetch, json, log */
+        .sy-st { color: #a5d6ff; } /* String */
+        .sy-cm { color: #8b949e; font-style: italic; } /* Comment */
 
-        /* Kumpulan Keyframes */
-        @keyframes gridMove {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(40px); }
-        }
-        @keyframes pulseGlow {
-            0% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
-            100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
-        }
-        @keyframes slideDownFade {
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes revealWrapper {
-            to { opacity: 1; }
-        }
-        @keyframes shineText {
-            to { background-position: 200% center; }
-        }
-        @keyframes floatContainer {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        @keyframes borderSpin {
-            100% { filter: hue-rotate(360deg) blur(12px); }
-        }
-        @keyframes scaleIn {
-            from { opacity: 0; transform: scale(0.95) translateY(10px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        @keyframes popIn {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        @keyframes rotation { 
-            0% { transform: rotate(0deg); } 
-            100% { transform: rotate(360deg); } 
-        }
+        /* Animations */
+        @keyframes gridMove { 0% { transform: translateY(0); } 100% { transform: translateY(40px); } }
+        @keyframes pulseGlow { 0% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); } 100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); } }
+        @keyframes slideDownFade { to { opacity: 1; transform: translateY(0); } }
+        @keyframes revealElement { to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUpFade { to { opacity: 1; transform: translateY(0); } }
+        @keyframes shineText { to { background-position: 200% center; } }
+        @keyframes floatContainer { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes borderSpin { 100% { filter: hue-rotate(360deg) blur(12px); } }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
     </style>
 </head>
@@ -486,12 +259,8 @@
     <div class="wrapper">
         <div class="container">
             <div class="tabs">
-                <button class="tab-btn active" data-target="tiktok" onclick="switchTab('tiktok')">
-                    <span>TikTok</span>
-                </button>
-                <button class="tab-btn" data-target="discord" onclick="switchTab('discord')">
-                    <span>Discord</span>
-                </button>
+                <button class="tab-btn active" data-target="tiktok" onclick="switchTab('tiktok')"><span>TikTok</span></button>
+                <button class="tab-btn" data-target="discord" onclick="switchTab('discord')"><span>Discord</span></button>
             </div>
 
             <div class="input-group">
@@ -507,13 +276,49 @@
         </div>
     </div>
 
+    <div class="integration-section">
+        <h2 class="integration-title">&gt; API_INTEGRATION_DOCS</h2>
+        <div class="code-window">
+            <div class="code-header">
+                <div class="mac-dots">
+                    <div class="mac-dot dot-red"></div>
+                    <div class="mac-dot dot-yellow"></div>
+                    <div class="mac-dot dot-green"></div>
+                </div>
+                <div class="code-title">integrate.js</div>
+                <button class="btn-copy" onclick="copyCode(this)">COPY_CODE</button>
+            </div>
+            <div class="code-content">
+<pre><code id="apiCode"><span class="sy-cm">// Menghubungkan WINYUK API dengan Fetch</span>
+<span class="sy-kw">const</span> <span class="sy-fn">fetchWinyukData</span> = <span class="sy-kw">async</span> (targetUrl) => {
+    <span class="sy-kw">try</span> {
+        <span class="sy-cm">// Ganti dengan domain Vercel Anda</span>
+        <span class="sy-kw">const</span> apiUrl = <span class="sy-st">`/api/tiktok?url=${encodeURIComponent(targetUrl)}`</span>;
+        
+        <span class="sy-kw">const</span> response = <span class="sy-kw">await</span> <span class="sy-fn">fetch</span>(apiUrl);
+        <span class="sy-kw">const</span> data = <span class="sy-kw">await</span> response.<span class="sy-fn">json</span>();
+
+        <span class="sy-kw">if</span> (data.success) {
+            console.<span class="sy-fn">log</span>(<span class="sy-st">"Data Extracted:"</span>, data.media);
+        } <span class="sy-kw">else</span> {
+            console.<span class="sy-fn">error</span>(<span class="sy-st">"Error Fetching:"</span>, data.message);
+        }
+    } <span class="sy-kw">catch</span> (error) {
+        console.<span class="sy-fn">error</span>(<span class="sy-st">"Connection Failed:"</span>, error);
+    }
+};
+
+<span class="sy-fn">fetchWinyukData</span>(<span class="sy-st">"https://vt.tiktok.com/contoh"</span>);</code></pre>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Logika Preloader Coder
         window.addEventListener('DOMContentLoaded', () => {
             const preloader = document.getElementById('preloader');
             const loaderText = document.getElementById('loader-text-val');
             
-            // Array teks terminal yang akan berganti
             const messages = [
                 "> INITIALIZING_SYSTEM...",
                 "> BYPASSING_SECURITY...",
@@ -526,23 +331,57 @@
             const msgInterval = setInterval(() => {
                 msgIndex++;
                 if(msgIndex < messages.length) {
-                    loaderText.innerText = messages[messages.length - 1] === messages[msgIndex] 
-                        ? messages[msgIndex] 
-                        : messages[msgIndex];
+                    loaderText.innerText = messages[msgIndex];
                 }
-            }, 500); // Ganti teks tiap 0.5 detik
+            }, 500);
 
-            // Sembunyikan preloader setelah 2.8 detik
             setTimeout(() => {
                 clearInterval(msgInterval);
                 preloader.classList.add('fade-out');
-                
-                // Hapus elemen dari DOM setelah animasi fade out selesai
-                setTimeout(() => {
-                    preloader.style.display = 'none';
-                }, 600);
+                setTimeout(() => { preloader.style.display = 'none'; }, 600);
             }, 2800); 
         });
+
+        // Logika Copy Code
+        function copyCode(btn) {
+            const rawCode = `// Menghubungkan WINYUK API dengan Fetch
+const fetchWinyukData = async (targetUrl) => {
+    try {
+        // Ganti dengan domain Vercel Anda
+        const apiUrl = \`/api/tiktok?url=\${encodeURIComponent(targetUrl)}\`;
+        
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        if (data.success) {
+            console.log("Data Extracted:", data.media);
+        } else {
+            console.error("Error Fetching:", data.message);
+        }
+    } catch (error) {
+        console.error("Connection Failed:", error);
+    }
+};
+
+fetchWinyukData("https://vt.tiktok.com/contoh");`;
+            
+            navigator.clipboard.writeText(rawCode).then(() => {
+                const originalText = btn.innerText;
+                btn.innerText = "COPIED!";
+                btn.style.background = "#27c93f";
+                btn.style.color = "#000";
+                btn.style.borderColor = "#27c93f";
+                btn.style.boxShadow = "0 0 15px rgba(39, 201, 63, 0.6)";
+                
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.background = "rgba(255,255,255,0.05)";
+                    btn.style.color = "var(--text-main)";
+                    btn.style.borderColor = "rgba(255,255,255,0.1)";
+                    btn.style.boxShadow = "none";
+                }, 2000);
+            });
+        }
 
         // Logika Tab dan Fetch Data
         let currentMode = 'tiktok';
@@ -556,9 +395,8 @@
             input.placeholder = mode === 'tiktok' ? '> Input TikTok URL here_' : '> Input Discord Attachment URL_';
             input.value = '';
             
-            const resultBox = document.getElementById('resultBox');
-            resultBox.style.display = 'none';
-            resultBox.innerHTML = '';
+            document.getElementById('resultBox').style.display = 'none';
+            document.getElementById('resultBox').innerHTML = '';
         }
 
         async function processDownload() {
@@ -572,13 +410,11 @@
                 return;
             }
 
-            // Animasi transisi state
             btnText.style.display = 'none';
             loader.style.display = 'block';
             resultBox.style.display = 'none';
 
             try {
-                // Endpoint Vercel API
                 const response = await fetch(`/api/${currentMode}?url=${encodeURIComponent(urlInput)}`);
                 const data = await response.json();
 
@@ -590,7 +426,6 @@
                     if (data.type === 'image' || data.type === 'video') {
                         mediaHTML = `<div class="media-grid">`;
                         data.media.forEach((link, index) => {
-                            // Delay animasi per item biar efek pop-up nya bergantian
                             const animDelay = index * 0.1; 
                             mediaHTML += `
                                 <div class="media-item" style="animation-delay: ${animDelay}s">
