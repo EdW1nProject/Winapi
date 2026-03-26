@@ -15,7 +15,8 @@
             --secondary: #8b5cf6;
             --tiktok: #ff0050;
             --discord: #5865F2;
-            --upload: #10b981;
+            --upload: #10b981; /* Hijau Neon */
+            --hd: #fbbf24;     /* Emas Neon untuk AI HD */
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
         }
@@ -48,10 +49,6 @@
         .loading-bar-container { width: 250px; height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; overflow: hidden; position: relative; }
         .loading-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--primary), var(--secondary)); box-shadow: 0 0 15px var(--primary); animation: loadProgress 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
 
-        @keyframes spinCore { 100% { transform: rotate(360deg); } }
-        @keyframes blinkCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        @keyframes loadProgress { 0% { width: 0%; } 30% { width: 40%; } 60% { width: 70%; } 100% { width: 100%; } }
-
         /* --- BACKGROUND & HEADER --- */
         body::before { content: ''; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-image: linear-gradient(var(--grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color) 1px, transparent 1px); background-size: 40px 40px; animation: gridMove 20s linear infinite; z-index: -2; }
         body::after { content: ''; position: fixed; top: 50%; left: 50%; width: 80vw; height: 80vh; transform: translate(-50%, -50%); background: radial-gradient(circle, rgba(14,165,233,0.15) 0%, rgba(139,92,246,0.05) 40%, transparent 70%); z-index: -1; pointer-events: none; animation: pulseGlow 8s ease-in-out infinite alternate; }
@@ -66,14 +63,16 @@
         .container { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 24px; padding: 2.5rem; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: inset 0 0 20px rgba(255,255,255,0.02); }
 
         /* --- TABS --- */
-        .tabs { display: flex; gap: 0.8rem; margin-bottom: 2rem; background: rgba(0,0,0,0.4); padding: 0.5rem; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); }
-        .tab-btn { flex: 1; padding: 0.8rem; border: none; background: transparent; color: var(--text-muted); font-weight: 600; border-radius: 12px; cursor: pointer; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden; }
+        .tabs { display: flex; gap: 0.5rem; margin-bottom: 2rem; background: rgba(0,0,0,0.4); padding: 0.5rem; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); flex-wrap: wrap; }
+        .tab-btn { flex: 1; min-width: 100px; padding: 0.8rem; border: none; background: transparent; color: var(--text-muted); font-weight: 600; border-radius: 12px; cursor: pointer; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden; }
         .tab-btn::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.1); transform: translateY(100%); transition: transform 0.3s ease; z-index: 0; }
         .tab-btn:hover::before { transform: translateY(0); }
         .tab-btn span { position: relative; z-index: 1; }
+        
         .tab-btn.active[data-target="tiktok"] { background: var(--tiktok); color: white; box-shadow: 0 0 20px rgba(255, 0, 80, 0.4); transform: scale(1.02); }
         .tab-btn.active[data-target="discord"] { background: var(--discord); color: white; box-shadow: 0 0 20px rgba(88, 101, 242, 0.4); transform: scale(1.02); }
         .tab-btn.active[data-target="upload"] { background: var(--upload); color: white; box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); transform: scale(1.02); }
+        .tab-btn.active[data-target="hd"] { background: var(--hd); color: #000; box-shadow: 0 0 20px rgba(251, 191, 36, 0.4); transform: scale(1.02); }
 
         /* --- INPUTS & FILE UPLOAD --- */
         .input-group { position: relative; margin-bottom: 1.5rem; transition: all 0.3s ease; }
@@ -81,11 +80,11 @@
         input[type="text"]:focus { border-color: var(--primary); background: rgba(0,0,0,0.7); box-shadow: 0 0 25px rgba(14, 165, 233, 0.2), inset 0 2px 5px rgba(0,0,0,0.5); }
 
         .file-upload-wrapper { width: 100%; padding: 2.5rem 2rem; border: 2px dashed rgba(255,255,255,0.2); border-radius: 16px; text-align: center; cursor: pointer; transition: all 0.3s ease; background: rgba(0,0,0,0.3); position: relative; overflow: hidden; display: none; margin-bottom: 1.5rem; }
-        .file-upload-wrapper:hover { border-color: var(--upload); background: rgba(16, 185, 129, 0.1); box-shadow: 0 0 25px rgba(16, 185, 129, 0.2); }
+        .file-upload-wrapper:hover { border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.05); }
         .file-upload-wrapper input[type="file"] { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 2; }
-        .file-icon { font-size: 2.5rem; margin-bottom: 10px; color: var(--upload); }
+        .file-icon { font-size: 2.5rem; margin-bottom: 10px; transition: color 0.3s; }
         .file-text { font-family: 'Fira Code', monospace; color: var(--text-muted); font-size: 0.95rem; }
-        .file-text span { color: var(--upload); font-weight: 600; text-decoration: underline; }
+        .file-text span { font-weight: 600; text-decoration: underline; transition: color 0.3s; }
 
         .btn-process { width: 100%; padding: 1.2rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border: none; border-radius: 16px; font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.4s ease; position: relative; overflow: hidden; }
         .btn-process::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(transparent, rgba(255,255,255,0.3), transparent); transform: rotate(45deg) translateY(-100%); transition: all 0.6s ease; }
@@ -102,22 +101,25 @@
         .btn-download { display: inline-block; width: 100%; padding: 0.7rem; background: rgba(255,255,255,0.1); color: var(--text-main); text-decoration: none; font-weight: 600; border-radius: 10px; font-size: 0.85rem; transition: all 0.3s; border: 1px solid transparent; }
         .btn-download:hover { background: var(--primary); color: #fff; box-shadow: 0 0 20px rgba(14, 165, 233, 0.4); border-color: var(--primary); }
         
+        /* URL Result (For Upload & HD) */
         .url-result { display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.5); padding: 1rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); margin-top: 1rem; }
-        .url-text { font-family: 'Fira Code', monospace; color: var(--upload); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-right: 10px; }
-        .btn-copy-url { background: var(--upload); color: #000; border: none; padding: 0.5rem 1rem; border-radius: 8px; font-weight: 700; cursor: pointer; font-family: 'Fira Code', monospace; transition: 0.3s; }
-        .btn-copy-url:hover { box-shadow: 0 0 15px var(--upload); }
+        .url-text { font-family: 'Fira Code', monospace; color: var(--text-main); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-right: 10px; }
+        .btn-copy-url { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 8px; font-weight: 700; cursor: pointer; font-family: 'Fira Code', monospace; transition: 0.3s; }
+        .btn-copy-url:hover { background: white; color: black; box-shadow: 0 0 15px rgba(255,255,255,0.5); }
 
         /* --- API INTEGRATION SHOWCASE --- */
         .integration-section { width: 100%; max-width: 650px; margin: 0 auto 5rem; opacity: 0; transform: translateY(40px); animation: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) forwards 3.2s; }
         .integration-title { text-align: center; font-family: 'Fira Code', monospace; color: var(--text-muted); margin-bottom: 1rem; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; }
         
         /* Docs Tabs */
-        .docs-tabs { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1.5rem; }
-        .doc-tab-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); padding: 0.4rem 1.2rem; border-radius: 8px; font-family: 'Fira Code', monospace; font-size: 0.85rem; cursor: pointer; transition: all 0.3s; }
+        .docs-tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+        .doc-tab-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); padding: 0.4rem 1rem; border-radius: 8px; font-family: 'Fira Code', monospace; font-size: 0.85rem; cursor: pointer; transition: all 0.3s; }
         .doc-tab-btn:hover { color: white; border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); }
-        .doc-tab-btn.active { background: rgba(255,255,255,0.1); color: var(--primary); border-color: var(--primary); box-shadow: 0 0 10px rgba(14, 165, 233, 0.2); }
+        .doc-tab-btn.active { background: rgba(255,255,255,0.1); }
         .doc-tab-btn.active[data-doc="tiktok"] { color: var(--tiktok); border-color: var(--tiktok); box-shadow: 0 0 10px rgba(255, 0, 80, 0.2); }
+        .doc-tab-btn.active[data-doc="discord"] { color: var(--discord); border-color: var(--discord); box-shadow: 0 0 10px rgba(88, 101, 242, 0.2); }
         .doc-tab-btn.active[data-doc="upload"] { color: var(--upload); border-color: var(--upload); box-shadow: 0 0 10px rgba(16, 185, 129, 0.2); }
+        .doc-tab-btn.active[data-doc="hd"] { color: var(--hd); border-color: var(--hd); box-shadow: 0 0 10px rgba(251, 191, 36, 0.2); }
 
         .code-window { background: #0d1117; border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.05); transition: transform 0.4s, box-shadow 0.4s; }
         .code-window:hover { transform: translateY(-8px); box-shadow: 0 30px 60px rgba(14, 165, 233, 0.2), inset 0 0 0 1px var(--primary); }
@@ -130,10 +132,9 @@
         .code-title { font-family: 'Fira Code', monospace; color: var(--text-muted); font-size: 0.9rem; transition: color 0.3s; }
         
         .btn-copy { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-main); padding: 0.4rem 1rem; border-radius: 8px; cursor: pointer; font-family: 'Fira Code', monospace; font-size: 0.8rem; transition: all 0.3s; }
-        .btn-copy:hover { background: var(--primary); border-color: var(--primary); box-shadow: 0 0 15px var(--primary); color: #000; font-weight: 700; }
+        .btn-copy:hover { font-weight: 700; color: #000 !important; }
         
         .code-content { padding: 1.5rem; overflow-x: auto; font-family: 'Fira Code', monospace; font-size: 0.95rem; line-height: 1.7; color: #c9d1d9; }
-        
         .sy-kw { color: #ff7b72; } .sy-fn { color: #d2a8ff; } .sy-st { color: #a5d6ff; } .sy-cm { color: #8b949e; font-style: italic; } .sy-obj { color: #79c0ff; }
 
         /* Animations */
@@ -181,6 +182,7 @@
                 <button class="tab-btn active" data-target="tiktok" onclick="switchTab('tiktok')"><span>TikTok</span></button>
                 <button class="tab-btn" data-target="discord" onclick="switchTab('discord')"><span>Discord</span></button>
                 <button class="tab-btn" data-target="upload" onclick="switchTab('upload')"><span>Upload Foto</span></button>
+                <button class="tab-btn" data-target="hd" onclick="switchTab('hd')"><span>HD Foto (AI)</span></button>
             </div>
 
             <div class="input-group" id="urlInputContainer">
@@ -188,9 +190,9 @@
             </div>
 
             <div class="file-upload-wrapper" id="fileUploadContainer">
-                <input type="file" id="fileInput" accept="image/png, image/jpeg, image/jpg, image/gif" onchange="displayFileName()">
-                <div class="file-icon">📸</div>
-                <div class="file-text" id="fileText">> DROP_IMAGE_HERE OR <span>BROWSE</span>_</div>
+                <input type="file" id="fileInput" accept="image/png, image/jpeg, image/jpg, image/webp" onchange="displayFileName()">
+                <div class="file-icon" id="fileIcon">📸</div>
+                <div class="file-text" id="fileText">> DROP_IMAGE_HERE OR <span id="fileSpan">BROWSE</span>_</div>
             </div>
 
             <button class="btn-process" id="processBtn" onclick="processData()">
@@ -209,6 +211,7 @@
             <button class="doc-tab-btn active" data-doc="tiktok" onclick="switchDoc('tiktok')">TikTok</button>
             <button class="doc-tab-btn" data-doc="discord" onclick="switchDoc('discord')">Discord</button>
             <button class="doc-tab-btn" data-doc="upload" onclick="switchDoc('upload')">Upload API</button>
+            <button class="doc-tab-btn" data-doc="hd" onclick="switchDoc('hd')">HD Foto API</button>
         </div>
 
         <div class="code-window" id="codeWindowBox">
@@ -230,147 +233,35 @@
         // --- DATA DOKUMENTASI API ---
         const docsData = {
             tiktok: {
-                title: "fetchTikTok.js",
-                color: "var(--tiktok)",
-                code: `<span class="sy-cm">// Fetch Data TikTok via WINYUK API</span>
-<span class="sy-kw">const</span> <span class="sy-fn">fetchTikTok</span> = <span class="sy-kw">async</span> (targetUrl) => {
-    <span class="sy-kw">try</span> {
-        <span class="sy-kw">const</span> response = <span class="sy-kw">await</span> <span class="sy-fn">fetch</span>(<span class="sy-st">\`https://winapi-red.vercel.app/api/tiktok?url=\${encodeURIComponent(targetUrl)}\`</span>);
-        <span class="sy-kw">const</span> data = <span class="sy-kw">await</span> response.<span class="sy-fn">json</span>();
-
-        <span class="sy-kw">if</span> (data.success) {
-            console.<span class="sy-fn">log</span>(<span class="sy-st">"Media Berhasil Diekstrak:"</span>, data.media);
-        } <span class="sy-kw">else</span> {
-            console.<span class="sy-fn">error</span>(<span class="sy-st">"Error API:"</span>, data.message);
-        }
-    } <span class="sy-kw">catch</span> (error) {
-        console.<span class="sy-fn">error</span>(<span class="sy-st">"Koneksi Gagal:"</span>, error);
-    }
-};
-
-<span class="sy-fn">fetchTikTok</span>(<span class="sy-st">"https://vt.tiktok.com/contoh"</span>);`,
-                rawCode: `// Fetch Data TikTok via WINYUK API
-const fetchTikTok = async (targetUrl) => {
-    try {
-        const response = await fetch(\`https://winapi-red.vercel.app/api/tiktok?url=\${encodeURIComponent(targetUrl)}\`);
-        const data = await response.json();
-
-        if (data.success) {
-            console.log("Media Berhasil Diekstrak:", data.media);
-        } else {
-            console.error("Error API:", data.message);
-        }
-    } catch (error) {
-        console.error("Koneksi Gagal:", error);
-    }
-};
-
-fetchTikTok("https://vt.tiktok.com/contoh");`
+                title: "fetchTikTok.js", color: "var(--tiktok)",
+                code: `<span class="sy-cm">// Fetch Data TikTok via WINYUK API</span>\n<span class="sy-kw">const</span> <span class="sy-fn">fetchTikTok</span> = <span class="sy-kw">async</span> (targetUrl) => {\n    <span class="sy-kw">try</span> {\n        <span class="sy-kw">const</span> response = <span class="sy-kw">await</span> <span class="sy-fn">fetch</span>(<span class="sy-st">\`/api/tiktok?url=\${encodeURIComponent(targetUrl)}\`</span>);\n        <span class="sy-kw">const</span> data = <span class="sy-kw">await</span> response.<span class="sy-fn">json</span>();\n\n        <span class="sy-kw">if</span> (data.success) {\n            console.<span class="sy-fn">log</span>(<span class="sy-st">"Media Berhasil Diekstrak:"</span>, data.media);\n        } <span class="sy-kw">else</span> {\n            console.<span class="sy-fn">error</span>(<span class="sy-st">"Error API:"</span>, data.message);\n        }\n    } <span class="sy-kw">catch</span> (error) {\n        console.<span class="sy-fn">error</span>(<span class="sy-st">"Koneksi Gagal:"</span>, error);\n    }\n};\n\n<span class="sy-fn">fetchTikTok</span>(<span class="sy-st">"https://vt.tiktok.com/contoh"</span>);`,
+                rawCode: `// Fetch Data TikTok via WINYUK API\nconst fetchTikTok = async (targetUrl) => {\n    try {\n        const response = await fetch(\`/api/tiktok?url=\${encodeURIComponent(targetUrl)}\`);\n        const data = await response.json();\n\n        if (data.success) {\n            console.log("Media Berhasil Diekstrak:", data.media);\n        } else {\n            console.error("Error API:", data.message);\n        }\n    } catch (error) {\n        console.error("Koneksi Gagal:", error);\n    }\n};\n\nfetchTikTok("https://vt.tiktok.com/contoh");`
             },
             discord: {
-                title: "fetchDiscord.js",
-                color: "var(--primary)",
-                code: `<span class="sy-cm">// Fetch Lampiran Discord via WINYUK API</span>
-<span class="sy-kw">const</span> <span class="sy-fn">fetchDiscord</span> = <span class="sy-kw">async</span> (discordUrl) => {
-    <span class="sy-kw">try</span> {
-        <span class="sy-kw">const</span> response = <span class="sy-kw">await</span> <span class="sy-fn">fetch</span>(<span class="sy-st">\`https://winapi-red.vercel.app/api/discord?url=\${encodeURIComponent(discordUrl)}\`</span>);
-        <span class="sy-kw">const</span> data = <span class="sy-kw">await</span> response.<span class="sy-fn">json</span>();
-
-        <span class="sy-kw">if</span> (data.success) {
-            console.<span class="sy-fn">log</span>(<span class="sy-st">"Akses File Didapat:"</span>, data.media[0]);
-        } <span class="sy-kw">else</span> {
-            console.<span class="sy-fn">error</span>(<span class="sy-st">"Error Akses:"</span>, data.message);
-        }
-    } <span class="sy-kw">catch</span> (error) {
-        console.<span class="sy-fn">error</span>(<span class="sy-st">"Koneksi Gagal:"</span>, error);
-    }
-};
-
-<span class="sy-fn">fetchDiscord</span>(<span class="sy-st">"https://cdn.discordapp.com/attachments/..."</span>);`,
-                rawCode: `// Fetch Lampiran Discord via WINYUK API
-const fetchDiscord = async (discordUrl) => {
-    try {
-        const response = await fetch(\`https://winapi-red.vercel.app/api/discord?url=\${encodeURIComponent(discordUrl)}\`);
-        const data = await response.json();
-
-        if (data.success) {
-            console.log("Akses File Didapat:", data.media[0]);
-        } else {
-            console.error("Error Akses:", data.message);
-        }
-    } catch (error) {
-        console.error("Koneksi Gagal:", error);
-    }
-};
-
-fetchDiscord("https://cdn.discordapp.com/attachments/...");`
+                title: "fetchDiscord.js", color: "var(--discord)",
+                code: `<span class="sy-cm">// Fetch Lampiran Discord via WINYUK API</span>\n<span class="sy-kw">const</span> <span class="sy-fn">fetchDiscord</span> = <span class="sy-kw">async</span> (discordUrl) => {\n    <span class="sy-kw">try</span> {\n        <span class="sy-kw">const</span> response = <span class="sy-kw">await</span> <span class="sy-fn">fetch</span>(<span class="sy-st">\`/api/discord?url=\${encodeURIComponent(discordUrl)}\`</span>);\n        <span class="sy-kw">const</span> data = <span class="sy-kw">await</span> response.<span class="sy-fn">json</span>();\n\n        <span class="sy-kw">if</span> (data.success) {\n            console.<span class="sy-fn">log</span>(<span class="sy-st">"Akses File Didapat:"</span>, data.media[0]);\n        } <span class="sy-kw">else</span> {\n            console.<span class="sy-fn">error</span>(<span class="sy-st">"Error Akses:"</span>, data.message);\n        }\n    } <span class="sy-kw">catch</span> (error) {\n        console.<span class="sy-fn">error</span>(<span class="sy-st">"Koneksi Gagal:"</span>, error);\n    }\n};\n\n<span class="sy-fn">fetchDiscord</span>(<span class="sy-st">"https://cdn.discordapp.com/attachments/..."</span>);`,
+                rawCode: `// Fetch Lampiran Discord via WINYUK API\nconst fetchDiscord = async (discordUrl) => {\n    try {\n        const response = await fetch(\`/api/discord?url=\${encodeURIComponent(discordUrl)}\`);\n        const data = await response.json();\n\n        if (data.success) {\n            console.log("Akses File Didapat:", data.media[0]);\n        } else {\n            console.error("Error Akses:", data.message);\n        }\n    } catch (error) {\n        console.error("Koneksi Gagal:", error);\n    }\n};\n\nfetchDiscord("https://cdn.discordapp.com/attachments/...");`
             },
             upload: {
-                title: "uploadImage.js",
-                color: "var(--upload)",
-                code: `<span class="sy-cm">// Upload Foto Base64 via WINYUK API</span>
-<span class="sy-kw">const</span> <span class="sy-fn">uploadToWinyuk</span> = <span class="sy-kw">async</span> (base64String, fileName) => {
-    <span class="sy-kw">try</span> {
-        <span class="sy-kw">const</span> response = <span class="sy-kw">await</span> <span class="sy-fn">fetch</span>(<span class="sy-st">'https://winapi-red.vercel.app/api/upload'</span>, {
-            <span class="sy-obj">method</span>: <span class="sy-st">'POST'</span>,
-            <span class="sy-obj">headers</span>: { <span class="sy-st">'Content-Type'</span>: <span class="sy-st">'application/json'</span> },
-            <span class="sy-obj">body</span>: JSON.<span class="sy-fn">stringify</span>({
-                <span class="sy-obj">image</span>: base64String,
-                <span class="sy-obj">filename</span>: fileName
-            })
-        });
-
-        <span class="sy-kw">const</span> data = <span class="sy-kw">await</span> response.<span class="sy-fn">json</span>();
-
-        <span class="sy-kw">if</span> (data.success) {
-            console.<span class="sy-fn">log</span>(<span class="sy-st">"URL Live Anda:"</span>, data.url);
-        } <span class="sy-kw">else</span> {
-            console.<span class="sy-fn">error</span>(<span class="sy-st">"Gagal:"</span>, data.message);
-        }
-    } <span class="sy-kw">catch</span> (error) {
-        console.<span class="sy-fn">error</span>(<span class="sy-st">"API Error:"</span>, error);
-    }
-};`,
-                rawCode: `// Upload Foto Base64 via WINYUK API
-const uploadToWinyuk = async (base64String, fileName) => {
-    try {
-        const response = await fetch('https://winapi-red.vercel.app/api/upload', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                image: base64String,
-                filename: fileName
-            })
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-            console.log("URL Live Anda:", data.url);
-        } else {
-            console.error("Gagal:", data.message);
-        }
-    } catch (error) {
-        console.error("API Error:", error);
-    }
-};`
+                title: "uploadImage.js", color: "var(--upload)",
+                code: `<span class="sy-cm">// Upload Foto Base64 via WINYUK API</span>\n<span class="sy-kw">const</span> <span class="sy-fn">uploadToWinyuk</span> = <span class="sy-kw">async</span> (base64String) => {\n    <span class="sy-kw">try</span> {\n        <span class="sy-kw">const</span> response = <span class="sy-kw">await</span> <span class="sy-fn">fetch</span>(<span class="sy-st">'/api/upload'</span>, {\n            <span class="sy-obj">method</span>: <span class="sy-st">'POST'</span>,\n            <span class="sy-obj">headers</span>: { <span class="sy-st">'Content-Type'</span>: <span class="sy-st">'application/json'</span> },\n            <span class="sy-obj">body</span>: JSON.<span class="sy-fn">stringify</span>({ <span class="sy-obj">image</span>: base64String })\n        });\n\n        <span class="sy-kw">const</span> data = <span class="sy-kw">await</span> response.<span class="sy-fn">json</span>();\n        <span class="sy-kw">if</span> (data.success) console.<span class="sy-fn">log</span>(<span class="sy-st">"URL Live Anda:"</span>, data.url);\n        <span class="sy-kw">else</span> console.<span class="sy-fn">error</span>(<span class="sy-st">"Gagal:"</span>, data.message);\n    } <span class="sy-kw">catch</span> (error) {\n        console.<span class="sy-fn">error</span>(<span class="sy-st">"API Error:"</span>, error);\n    }\n};`,
+                rawCode: `// Upload Foto Base64 via WINYUK API\nconst uploadToWinyuk = async (base64String) => {\n    try {\n        const response = await fetch('/api/upload', {\n            method: 'POST',\n            headers: { 'Content-Type': 'application/json' },\n            body: JSON.stringify({ image: base64String })\n        });\n\n        const data = await response.json();\n        if (data.success) console.log("URL Live Anda:", data.url);\n        else console.error("Gagal:", data.message);\n    } catch (error) {\n        console.error("API Error:", error);\n    }\n};`
+            },
+            hd: {
+                title: "enhanceHD.js", color: "var(--hd)",
+                code: `<span class="sy-cm">// Enhance/Upscale Foto via WINYUK AI API</span>\n<span class="sy-kw">const</span> <span class="sy-fn">enhanceToHD</span> = <span class="sy-kw">async</span> (base64String) => {\n    <span class="sy-kw">try</span> {\n        <span class="sy-kw">const</span> response = <span class="sy-kw">await</span> <span class="sy-fn">fetch</span>(<span class="sy-st">'/api/hd'</span>, {\n            <span class="sy-obj">method</span>: <span class="sy-st">'POST'</span>,\n            <span class="sy-obj">headers</span>: { <span class="sy-st">'Content-Type'</span>: <span class="sy-st">'application/json'</span> },\n            <span class="sy-obj">body</span>: JSON.<span class="sy-fn">stringify</span>({ <span class="sy-obj">image</span>: base64String })\n        });\n\n        <span class="sy-kw">const</span> data = <span class="sy-kw">await</span> response.<span class="sy-fn">json</span>();\n        <span class="sy-kw">if</span> (data.success) console.<span class="sy-fn">log</span>(<span class="sy-st">"URL HD Image:"</span>, data.url);\n        <span class="sy-kw">else</span> console.<span class="sy-fn">error</span>(<span class="sy-st">"Gagal:"</span>, data.message);\n    } <span class="sy-kw">catch</span> (error) {\n        console.<span class="sy-fn">error</span>(<span class="sy-st">"API Error:"</span>, error);\n    }\n};`,
+                rawCode: `// Enhance/Upscale Foto via WINYUK AI API\nconst enhanceToHD = async (base64String) => {\n    try {\n        const response = await fetch('/api/hd', {\n            method: 'POST',\n            headers: { 'Content-Type': 'application/json' },\n            body: JSON.stringify({ image: base64String })\n        });\n\n        const data = await response.json();\n        if (data.success) console.log("URL HD Image:", data.url);\n        else console.error("Gagal:", data.message);\n    } catch (error) {\n        console.error("API Error:", error);\n    }\n};`
             }
         };
 
-        let currentDocMode = 'tiktok'; // Default docs
-
-        // --- INIT: Set Default Docs ---
+        let currentDocMode = 'tiktok'; 
         document.getElementById('docCodeContent').innerHTML = `<pre><code>${docsData.tiktok.code}</code></pre>`;
 
-        // --- FUNGSI GANTI DOKUMENTASI ---
         function switchDoc(mode) {
             currentDocMode = mode;
-            
-            // Ubah class active di tombol tab docs
             document.querySelectorAll('.doc-tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelector(`.doc-tab-btn[data-doc="${mode}"]`).classList.add('active');
 
-            // Update Window UI (Judul & Konten)
             const docTitle = document.getElementById('docCodeTitle');
             const docContent = document.getElementById('docCodeContent');
             const codeBox = document.getElementById('codeWindowBox');
@@ -380,56 +271,36 @@ const uploadToWinyuk = async (base64String, fileName) => {
             docTitle.style.color = docsData[mode].color;
             docContent.innerHTML = `<pre><code>${docsData[mode].code}</code></pre>`;
             
-            // Animasi hover effect window berubah warna sesuai layanan
             codeBox.style.boxShadow = `0 20px 40px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.05)`;
             codeBox.onmouseover = () => { codeBox.style.boxShadow = `0 30px 60px ${docsData[mode].color.replace(')', ', 0.2)').replace('var(--', 'rgba(')}, inset 0 0 0 1px ${docsData[mode].color}`; }
             codeBox.onmouseout = () => { codeBox.style.boxShadow = `0 20px 40px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.05)`; }
             
-            // Reset Tombol Copy styling
-            copyBtn.style.background = "rgba(255,255,255,0.05)";
-            copyBtn.style.color = "var(--text-main)";
-            copyBtn.style.borderColor = "rgba(255,255,255,0.1)";
-            copyBtn.innerText = "COPY_CODE";
+            copyBtn.style.background = "rgba(255,255,255,0.05)"; copyBtn.style.color = "var(--text-main)";
+            copyBtn.style.borderColor = "rgba(255,255,255,0.1)"; copyBtn.innerText = "COPY_CODE";
         }
 
-        // --- FUNGSI COPY CODE DINAMIS ---
         function copyCode(btn) {
             const rawCode = docsData[currentDocMode].rawCode;
             const themeColor = docsData[currentDocMode].color;
 
             navigator.clipboard.writeText(rawCode).then(() => {
-                const originalText = "COPY_CODE";
-                btn.innerText = "COPIED!";
-                btn.style.background = themeColor;
-                btn.style.color = "#000";
-                btn.style.borderColor = themeColor;
-                btn.style.boxShadow = `0 0 15px ${themeColor}`;
-                
+                btn.innerText = "COPIED!"; btn.style.background = themeColor; btn.style.color = "#000";
+                btn.style.borderColor = themeColor; btn.style.boxShadow = `0 0 15px ${themeColor}`;
                 setTimeout(() => {
-                    btn.innerText = originalText;
-                    btn.style.background = "rgba(255,255,255,0.05)";
-                    btn.style.color = "var(--text-main)";
-                    btn.style.borderColor = "rgba(255,255,255,0.1)";
-                    btn.style.boxShadow = "none";
+                    btn.innerText = "COPY_CODE"; btn.style.background = "rgba(255,255,255,0.05)";
+                    btn.style.color = "var(--text-main)"; btn.style.borderColor = "rgba(255,255,255,0.1)"; btn.style.boxShadow = "none";
                 }, 2000);
             });
         }
-
 
         // --- LOGIKA PRELOADER ---
         window.addEventListener('DOMContentLoaded', () => {
             const preloader = document.getElementById('preloader');
             const loaderText = document.getElementById('loader-text-val');
-            const messages = [ "> INITIALIZING_SYSTEM...", "> BYPASSING_SECURITY...", "> ESTABLISHING_CONNECTION...", "> SYSTEM_READY_" ];
+            const messages = [ "> INITIALIZING_SYSTEM...", "> BOOTING_AI_ENGINE...", "> ESTABLISHING_CONNECTION...", "> SYSTEM_READY_" ];
             let msgIndex = 0;
-            const msgInterval = setInterval(() => {
-                msgIndex++;
-                if(msgIndex < messages.length) loaderText.innerText = messages[msgIndex];
-            }, 600);
-            setTimeout(() => {
-                clearInterval(msgInterval); preloader.classList.add('fade-out');
-                setTimeout(() => { preloader.style.display = 'none'; }, 600);
-            }, 2600); 
+            const msgInterval = setInterval(() => { msgIndex++; if(msgIndex < messages.length) loaderText.innerText = messages[msgIndex]; }, 600);
+            setTimeout(() => { clearInterval(msgInterval); preloader.classList.add('fade-out'); setTimeout(() => { preloader.style.display = 'none'; }, 600); }, 2600); 
         });
 
         // --- LOGIKA TAB FORM UTAMA ---
@@ -444,36 +315,49 @@ const uploadToWinyuk = async (base64String, fileName) => {
             const fileContainer = document.getElementById('fileUploadContainer');
             const urlInput = document.getElementById('urlInput');
             const processBtn = document.getElementById('processBtn');
+            const btnText = document.getElementById('btnText');
             
             document.getElementById('resultBox').style.display = 'none';
 
-            if (mode === 'upload') {
+            if (mode === 'upload' || mode === 'hd') {
                 urlContainer.style.display = 'none'; fileContainer.style.display = 'block';
-                processBtn.style.background = 'linear-gradient(135deg, #10b981, #047857)'; // Hijau Neon
-                document.getElementById('btnText').innerText = 'GENERATE URL';
+                
+                if (mode === 'upload') {
+                    processBtn.style.background = 'linear-gradient(135deg, #10b981, #047857)'; // Hijau Neon
+                    btnText.innerText = 'GENERATE URL';
+                    document.getElementById('fileIcon').style.color = 'var(--upload)';
+                    document.getElementById('fileSpan').style.color = 'var(--upload)';
+                } else {
+                    processBtn.style.background = 'linear-gradient(135deg, #fbbf24, #d97706)'; // Emas Neon
+                    btnText.innerText = 'ENHANCE TO HD';
+                    document.getElementById('fileIcon').style.color = 'var(--hd)';
+                    document.getElementById('fileSpan').style.color = 'var(--hd)';
+                }
             } else {
                 urlContainer.style.display = 'block'; fileContainer.style.display = 'none';
                 urlInput.placeholder = mode === 'tiktok' ? '> Input TikTok URL here_' : '> Input Discord Attachment URL_';
                 urlInput.value = '';
                 processBtn.style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
-                document.getElementById('btnText').innerText = 'EXECUTE PAYLOAD';
+                btnText.innerText = 'EXECUTE PAYLOAD';
                 
                 document.getElementById('fileInput').value = '';
-                document.getElementById('fileText').innerHTML = '> DROP_IMAGE_HERE OR <span>BROWSE</span>_';
+                document.getElementById('fileText').innerHTML = '> DROP_IMAGE_HERE OR <span id="fileSpan">BROWSE</span>_';
+                document.getElementById('fileIcon').style.color = 'inherit';
             }
         }
 
         function displayFileName() {
             const fileInput = document.getElementById('fileInput');
             const fileText = document.getElementById('fileText');
+            const color = currentMode === 'hd' ? 'var(--hd)' : 'var(--upload)';
             if (fileInput.files.length > 0) {
-                fileText.innerHTML = `<span style="color:var(--upload);">> FILE_SELECTED:</span> ${fileInput.files[0].name}`;
+                fileText.innerHTML = `<span style="color:${color};">> FILE_SELECTED:</span> ${fileInput.files[0].name}`;
             }
         }
 
         // --- ROUTER PROSES DATA ---
         async function processData() {
-            if (currentMode === 'upload') await processImageUpload();
+            if (currentMode === 'upload' || currentMode === 'hd') await processImagePayload();
             else await processDownload();
         }
 
@@ -484,8 +368,7 @@ const uploadToWinyuk = async (base64String, fileName) => {
             const loader = document.getElementById('loader');
             const resultBox = document.getElementById('resultBox');
 
-            if (!urlInput) return alert('Tautan tidak boleh kosong. Harap masukkan URL yang valid.');
-
+            if (!urlInput) return alert('Tautan tidak boleh kosong.');
             btnText.style.display = 'none'; loader.style.display = 'block'; resultBox.style.display = 'none';
 
             try {
@@ -513,7 +396,6 @@ const uploadToWinyuk = async (base64String, fileName) => {
                         <div style="border-bottom: 1px solid var(--card-border); padding-bottom: 1rem; margin-bottom: 1rem;">
                             <h3 style="color: #38bdf8; font-family: 'Fira Code', monospace; margin-bottom: 8px;">STATUS: 200 OK</h3>
                             ${data.author ? `<p style="color: var(--text-muted); font-size: 0.95rem;"><strong>User:</strong> @${data.author}</p>` : ''}
-                            ${data.title ? `<p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 5px; line-height: 1.5;">${data.title}</p>` : ''}
                         </div>${mediaHTML}`;
                 } else {
                     resultBox.innerHTML = `<p style="color: #ff0050; font-family: 'Fira Code', monospace; font-weight: 600;">> ERROR: ${data.message}</p>`;
@@ -523,8 +405,8 @@ const uploadToWinyuk = async (base64String, fileName) => {
             } finally { btnText.style.display = 'block'; loader.style.display = 'none'; }
         }
 
-        // --- LOGIKA UPLOAD FOTO KE API VERCEL (BASE64) ---
-        async function processImageUpload() {
+        // --- LOGIKA UPLOAD & HD KE API VERCEL (BASE64) ---
+        async function processImagePayload() {
             const fileInput = document.getElementById('fileInput');
             const btnText = document.getElementById('btnText');
             const loader = document.getElementById('loader');
@@ -538,9 +420,12 @@ const uploadToWinyuk = async (base64String, fileName) => {
             reader.onloadend = async () => {
                 const base64Image = reader.result;
                 btnText.style.display = 'none'; loader.style.display = 'block'; resultBox.style.display = 'none';
+                
+                const apiEndpoint = currentMode === 'hd' ? '/api/hd' : '/api/upload';
+                const themeColor = currentMode === 'hd' ? 'var(--hd)' : 'var(--upload)';
 
                 try {
-                    const response = await fetch('/api/upload', {
+                    const response = await fetch(apiEndpoint, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ image: base64Image, filename: file.name })
@@ -552,13 +437,13 @@ const uploadToWinyuk = async (base64String, fileName) => {
                     if (data.success) {
                         resultBox.innerHTML = `
                             <div style="border-bottom: 1px solid var(--card-border); padding-bottom: 1rem;">
-                                <h3 style="color: var(--upload); font-family: 'Fira Code', monospace; margin-bottom: 8px;">STATUS: 200 API_SUCCESS</h3>
-                                <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.5;">API berhasil menerjemahkan gambar menjadi URL permanen.</p>
+                                <h3 style="color: ${themeColor}; font-family: 'Fira Code', monospace; margin-bottom: 8px;">STATUS: 200 API_SUCCESS</h3>
+                                <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.5;">${data.message}</p>
                             </div>
                             <img src="${data.url}" style="width:100%; border-radius:12px; margin-top:1.5rem; max-height:250px; object-fit:cover; border:2px solid rgba(255,255,255,0.1);">
                             <div class="url-result">
                                 <span class="url-text" id="generatedUrl">${data.url}</span>
-                                <button class="btn-copy-url" onclick="copyUrl()">COPY_URL</button>
+                                <button class="btn-copy-url" onclick="copyUrl('${themeColor}')">COPY_URL</button>
                             </div>`;
                     } else {
                         resultBox.innerHTML = `<p style="color: #ff0050; font-family: 'Fira Code', monospace;">> ERROR: ${data.message}</p>`;
@@ -570,13 +455,12 @@ const uploadToWinyuk = async (base64String, fileName) => {
             reader.readAsDataURL(file);
         }
 
-        // --- UTILITIES COPY URL HASIL UPLOAD ---
-        function copyUrl() {
+        function copyUrl(color) {
             const urlText = document.getElementById('generatedUrl').innerText;
             navigator.clipboard.writeText(urlText).then(() => {
                 const btn = document.querySelector('.btn-copy-url');
-                btn.innerText = 'COPIED!'; btn.style.background = '#fff';
-                setTimeout(() => { btn.innerText = 'COPY_URL'; btn.style.background = 'var(--upload)'; }, 2000);
+                btn.innerText = 'COPIED!'; btn.style.background = color; btn.style.color = '#000';
+                setTimeout(() => { btn.innerText = 'COPY_URL'; btn.style.background = 'rgba(255,255,255,0.1)'; btn.style.color = 'white'; }, 2000);
             });
         }
     </script>
