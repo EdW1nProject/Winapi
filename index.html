@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <link rel="stylesheet" href="css/style.css">
     
     <script>
@@ -24,11 +25,11 @@
 </head>
 <body class="bg-darkBg text-white antialiased overflow-x-hidden selection:bg-purple-500 selection:text-white">
 
-    <div class="fixed top-[-10%] left-[-10%] w-96 h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-30 animate-blob pointer-events-none"></div>
-    <div class="fixed top-[20%] right-[-10%] w-96 h-96 bg-blue-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-30 animate-blob animation-delay-2000 pointer-events-none"></div>
+    <div class="fixed top-[-10%] left-[-10%] w-96 h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-30 animate-blob pointer-events-none z-0"></div>
+    <div class="fixed top-[20%] right-[-10%] w-96 h-96 bg-blue-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-30 animate-blob animation-delay-2000 pointer-events-none z-0"></div>
 
     <nav class="fixed w-full z-50 backdrop-blur-md bg-glass border-b border-glassBorder transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center relative z-10">
             <div class="text-2xl font-extrabold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">
                 WINYUK<span class="text-white">API</span>
             </div>
@@ -44,7 +45,7 @@
 
     <div id="authModal" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md hidden flex justify-center items-center opacity-0 transition-opacity duration-300">
         <div id="authBox" class="bg-[#0f0f13] border border-gray-800 p-8 rounded-[2rem] w-full max-w-md transform scale-95 transition-all duration-300 shadow-[0_0_40px_rgba(168,85,247,0.15)] relative overflow-hidden">
-            <div class="absolute -top-20 -right-20 w-40 h-40 bg-purple-600 rounded-full blur-[60px] opacity-20"></div>
+            <div class="absolute -top-20 -right-20 w-40 h-40 bg-purple-600 rounded-full blur-[60px] opacity-20 pointer-events-none"></div>
             
             <div class="flex justify-between items-center mb-8 relative z-10">
                 <div>
@@ -56,12 +57,12 @@
                 </button>
             </div>
             
-            <form id="authForm" class="space-y-5 relative z-10" onsubmit="return false;">
+            <form id="authForm" class="space-y-5 relative z-10">
                 <div>
                     <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Username</label>
                     <div class="relative">
                         <i class="fa-regular fa-user absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
-                        <input type="text" id="usernameInput" autocomplete="off" placeholder="winyuk_dev" required
+                        <input type="text" id="usernameInput" autocomplete="off" placeholder="winyuk_dev" required minlength="3"
                             class="w-full bg-black/50 border border-gray-700 rounded-xl pl-12 pr-4 py-3.5 text-white focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none transition-all">
                     </div>
                 </div>
@@ -69,11 +70,10 @@
                     <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Password</label>
                     <div class="relative">
                         <i class="fa-solid fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
-                        <input type="password" id="passwordInput" placeholder="••••••••" required
+                        <input type="password" id="passwordInput" placeholder="••••••••" required minlength="4"
                             class="w-full bg-black/50 border border-gray-700 rounded-xl pl-12 pr-4 py-3.5 text-white focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none transition-all">
                     </div>
                 </div>
-
                 <button id="submitAuthBtn" type="submit" class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-4 rounded-xl hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all transform hover:-translate-y-1 mt-4">
                     Login Now
                 </button>
@@ -82,13 +82,14 @@
             <div class="text-center mt-6 relative z-10">
                 <p class="text-gray-400 text-sm">
                     <span id="switchText">New here?</span> 
-                    <button id="switchModeBtn" class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 font-bold hover:opacity-80 transition-opacity ml-1 border-b border-purple-400">
+                    <button type="button" id="switchModeBtn" class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 font-bold hover:opacity-80 transition-opacity ml-1 border-b border-purple-400">
                         Create an account
                     </button>
                 </p>
             </div>
         </div>
     </div>
+
     <section id="dashboard" class="pt-32 pb-10 px-6 flex flex-col justify-center items-center relative z-10">
         <div class="text-center max-w-3xl mx-auto mb-12 fade-in-up">
             <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
@@ -106,8 +107,8 @@
                     <i class="fa-solid fa-lock text-3xl text-purple-400"></i>
                 </div>
                 <h3 class="text-xl font-bold mb-2">Akses Terkunci</h3>
-                <p class="text-gray-400 text-sm mb-6 text-center px-4">Silakan login untuk mendapatkan dan mengelola API Key Anda.</p>
-                <button id="overlayLoginBtn" class="px-8 py-3 bg-white text-black rounded-full font-bold hover:bg-gray-200 transition-colors shadow-lg">Login Sekarang</button>
+                <p class="text-gray-400 text-sm mb-6 text-center px-4">Silakan login untuk mendapatkan API Key unik Anda.</p>
+                <button id="overlayLoginBtn" class="px-8 py-3 bg-white text-black rounded-full font-bold hover:bg-gray-200 transition-colors shadow-lg">Login / Daftar</button>
             </div>
 
             <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3">
@@ -121,17 +122,78 @@
                         <i class="fa-regular fa-eye"></i>
                     </button>
                 </div>
-                <button id="regenerateKeyBtn" class="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white px-6 py-4 rounded-xl font-semibold shadow-lg transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+                <button id="regenerateKeyBtn" class="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white px-6 py-4 rounded-xl font-semibold shadow-lg transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2" title="Reset Key">
                     <i class="fa-solid fa-rotate"></i>
                 </button>
                 <button id="copyKeyBtn" class="bg-white/10 hover:bg-white/20 border border-glassBorder text-white px-6 py-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2" title="Copy Key">
                     <i class="fa-regular fa-copy"></i>
                 </button>
             </div>
+            <p class="text-xs text-gray-500 mt-4"><i class="fa-solid fa-triangle-exclamation text-yellow-500"></i> Simpan key ini dengan aman. Key digenerate otomatis saat registrasi.</p>
         </div>
     </section>
 
-    <script src="js/auth.js"></script>
-    <script src="js/main.js"></script>
+    <section id="endpoints" class="py-16 px-6 relative z-10 mb-20">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12 fade-in-up">
+                <h2 class="text-3xl font-bold mb-4">Live API Testing</h2>
+                <p class="text-gray-400">Uji coba langsung respons API kami tanpa pusing memikirkan kode.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 fade-in-up delay-100">
+                <div class="bg-glass backdrop-blur-xl border border-glassBorder rounded-2xl p-6 hover:border-pink-500/50 transition-colors group">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-black/50 rounded-xl flex items-center justify-center text-pink-500 group-hover:scale-110 transition-transform"><i class="fa-brands fa-tiktok text-2xl"></i></div>
+                            <h4 class="text-xl font-semibold text-white">TikTok Downloader</h4>
+                        </div>
+                        <span class="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full border border-green-500/30">GET</span>
+                    </div>
+                    <div class="mt-6 border-t border-gray-800 pt-5">
+                        <div class="flex gap-2">
+                            <input type="text" id="tiktokUrl" placeholder="https://vt.tiktok.com/..." class="w-full bg-black/50 border border-gray-700 rounded-lg py-3 px-4 text-sm focus:outline-none focus:border-pink-500 text-gray-300">
+                            <button id="testTiktokBtn" type="button" class="bg-pink-600 hover:bg-pink-500 text-white px-6 py-3 rounded-lg text-sm font-semibold transition-colors min-w-[100px]">Test</button>
+                        </div>
+                        <div id="tiktokResultBox" class="hidden mt-4 bg-[#050505] border border-gray-800 rounded-xl p-4 overflow-x-auto shadow-inner">
+                            <div class="flex justify-between items-center mb-2 border-b border-gray-800 pb-2">
+                                <span class="text-xs text-gray-500 font-mono">Response</span>
+                                <div class="w-2 h-2 rounded-full bg-gray-500" id="tiktokStatusDot"></div>
+                            </div>
+                            <pre><code id="tiktokResult" class="text-xs font-mono leading-relaxed"></code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-glass backdrop-blur-xl border border-glassBorder rounded-2xl p-6 hover:border-indigo-500/50 transition-colors group">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-black/50 rounded-xl flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-transform"><i class="fa-brands fa-discord text-2xl"></i></div>
+                            <h4 class="text-xl font-semibold text-white">Discord Fetcher</h4>
+                        </div>
+                        <span class="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full border border-green-500/30">GET</span>
+                    </div>
+                    <div class="mt-6 border-t border-gray-800 pt-5">
+                        <div class="flex gap-2">
+                            <input type="text" id="discordUrl" placeholder="https://cdn.discordapp.com/..." class="w-full bg-black/50 border border-gray-700 rounded-lg py-3 px-4 text-sm focus:outline-none focus:border-indigo-500 text-gray-300">
+                            <button id="testDiscordBtn" type="button" class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-lg text-sm font-semibold transition-colors min-w-[100px]">Test</button>
+                        </div>
+                        <div id="discordResultBox" class="hidden mt-4 bg-[#050505] border border-gray-800 rounded-xl p-4 overflow-x-auto shadow-inner">
+                            <div class="flex justify-between items-center mb-2 border-b border-gray-800 pb-2">
+                                <span class="text-xs text-gray-500 font-mono">Response</span>
+                                <div class="w-2 h-2 rounded-full bg-gray-500" id="discordStatusDot"></div>
+                            </div>
+                            <pre><code id="discordResult" class="text-xs font-mono leading-relaxed"></code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="border-t border-glassBorder py-8 relative z-10 text-center">
+        <p class="text-gray-500 text-sm">© 2026 WINYUK API. Built with Premium Modern Development.</p>
+    </footer>
+
+    <script src="js/script.js" defer></script>
 </body>
 </html>
