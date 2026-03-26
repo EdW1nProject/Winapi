@@ -1,67 +1,67 @@
 export default async function handler(req, res) {
-    // Pastikan hanya menerima method POST
+    // Keamanan dasar: Hanya menerima method POST
     if (req.method !== 'POST') {
         return res.status(405).json({ success: false, message: 'Metode tidak diizinkan. Gunakan POST.' });
     }
 
     try {
-        const { image, filename = 'winyuk_image.png' } = req.body;
+        const { image } = req.body;
 
         if (!image) {
             return res.status(400).json({ success: false, message: 'Payload gambar kosong.' });
         }
 
-        // 1. Membersihkan string Base64 dari header MIME type (misal: "data:image/png;base64,")
+        // 1. Ekstrak data mentah dari string Base64
         const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
-        
-        // 2. Mengubah Base64 murni menjadi Binary Buffer
         const buffer = Buffer.from(base64Data, 'base64');
 
-        // 3. TRIK JITU: Merakit Multipart/Form-Data secara manual (Solusi Vercel Node.js)
-        const boundary = '----WinyukApiBoundary' + Math.random().toString(16).substring(2);
-        
-        // Membuat Header Payload
+        // 2. Kita gunakan server CATBOX.MOE (Anti-Blokir, Tanpa API Key)
+        // Merakit paket Multipart/Form-Data secara manual agar 100% lolos di Vercel
+        const boundary = '----WinyukCatboxBoundary' + Date.now().toString(16);
+
         const header = Buffer.from(
             `--${boundary}\r\n` +
-            `Content-Disposition: form-data; name="file"; filename="${filename}"\r\n` +
-            `Content-Type: image/png\r\n\r\n`, 
+            `Content-Disposition: form-data; name="reqtype"\r\n\r\n` +
+            `fileupload\r\n` +
+            `--${boundary}\r\n` +
+            `Content-Disposition: form-data; name="fileToUpload"; filename="winyuk_image.png"\r\n` +
+            `Content-Type: image/png\r\n\r\n`,
             'utf-8'
         );
-        
-        // Membuat Footer Payload
+
         const footer = Buffer.from(`\r\n--${boundary}--\r\n`, 'utf-8');
         
-        // Menggabungkan Header, Gambar (Buffer), dan Footer menjadi satu paket
+        // Gabungkan semua komponen menjadi satu payload biner
         const payload = Buffer.concat([header, buffer, footer]);
 
-        // 4. Mengirim paket utuh ke Telegra.ph
-        const response = await fetch('https://telegra.ph/upload', {
+        // 3. Tembak langsung ke API Catbox dengan menyamar sebagai browser (User-Agent)
+        const response = await fetch('https://catbox.moe/user/api.php', {
             method: 'POST',
             headers: {
                 'Content-Type': `multipart/form-data; boundary=${boundary}`,
-                'Content-Length': payload.length
+                'Content-Length': payload.length.toString(),
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
             },
             body: payload
         });
 
-        const data = await response.json();
+        // Catbox sangat efisien, ia mengembalikan URL langsung dalam bentuk teks biasa
+        const resultText = await response.text();
 
-        // 5. Validasi dan Kembalikan URL
-        if (data && data[0] && data[0].src) {
+        // 4. Validasi hasil
+        if (resultText.startsWith('https://')) {
             return res.status(200).json({
                 success: true,
-                url: 'https://telegra.ph' + data[0].src,
-                message: 'Gambar berhasil di-hosting.'
+                url: resultText.trim(),
+                message: 'Gambar berhasil di-hosting via Catbox.'
             });
-        } else if (data.error) {
-            return res.status(500).json({ success: false, message: `Ditolak oleh server: ${data.error}` });
         } else {
-            return res.status(500).json({ success: false, message: 'Server hosting tidak merespons URL dengan benar.' });
+            // Jika gagal, tampilkan pesan asli dari server untuk mempermudah debug
+            return res.status(500).json({ success: false, message: `Ditolak server: ${resultText}` });
         }
 
     } catch (error) {
-        // Log ini akan muncul di dashboard Vercel -> tab "Logs" untuk mempermudah pemantauan
-        console.error("API Upload Error:", error); 
-        return res.status(500).json({ success: false, message: 'Gagal memproses gambar di server Vercel.' });
+        console.error("Upload API Error:", error);
+        return res.status(500).json({ success: false, message: `Terjadi kegagalan sistem Vercel: ${error.message}` });
     }
 }
