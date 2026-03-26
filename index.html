@@ -3,20 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WINYUK | Nailong Super Cute Downloader</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
+    <title>WINYUK | Doraemon Magic Downloader 🐱💙</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&family=Varela+Round&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-base: #fffdeb; /* Kuning Pastel Lembut Nailong */
-            --primary: #ffd600; /* Kuning Terang Nailong */
-            --secondary: #ff8c00; /* Oranye Nailong */
+            --bg-base: #e3f2fd; /* Biru Langit Sangat Muda */
+            --primary: #42a5f5; /* Biru Doraemon */
+            --primary-dark: #1e88e5; /* Biru Tua Doraemon */
+            --secondary: #ff5252; /* Merah Kalung Doraemon */
+            --accent: #ffeb3b; /* Kuning Lonceng Doraemon */
             --tiktok: #ff0050;
             --discord: #5865F2;
             --facebook: #1877F2;
-            --text-main: #5d4037; /* Cokelat Tua Lembut */
-            --text-muted: #8d6e63;
+            --text-main: #37474f; /* Abu-abu Tua Kebiruan */
+            --text-muted: #78909c;
             --card-bg: rgba(255, 255, 255, 0.95);
-            --card-border: rgba(255, 214, 0, 0.4);
+            --card-border: rgba(66, 165, 245, 0.3);
         }
 
         * { 
@@ -28,7 +30,7 @@
         body {
             background-color: var(--bg-base);
             color: var(--text-main);
-            font-family: 'Gaegu', cursive;
+            font-family: 'Varela Round', sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -37,54 +39,53 @@
             position: relative;
         }
 
-        /* --- Animasi Latar Belakang Nailong Melompat-lompat (FULL ANIMATION) --- */
-        .nailong-bg-animation {
+        /* --- Animasi Latar Belakang Langit & Awan Doraemon (FULL ANIMATION) --- */
+        .sky-bg-animation {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: -2;
             pointer-events: none;
             overflow: hidden;
+            background: linear-gradient(to bottom, #bbdefb, #e3f2fd);
         }
 
-        .nailong-floating {
+        .cloud {
             position: absolute;
-            width: 100px; /* Ukuran gambar Nailong di background */
-            height: auto;
-            opacity: 0.6;
-            filter: drop-shadow(0 5px 10px rgba(255, 214, 0, 0.3));
+            background: #fff;
+            border-radius: 50px;
+            opacity: 0.8;
+            filter: blur(5px);
         }
 
-        /* Menggunakan URL gambar Nailong asli yang lucu dari internet */
-        .nailong-img {
-            content: url('https://i.ibb.co/wMs46K3/nailong-cute-sit.png'); /* Nailong duduk gemas */
-        }
-
-        .nailong-1 { top: 10%; left: 5%; animation: nailongFloat 10s ease-in-out infinite; }
-        .nailong-2 { top: 70%; left: 85%; animation: nailongFloat 12s ease-in-out infinite 2s; width: 80px;}
-        .nailong-3 { top: 85%; left: 15%; animation: nailongFloat 11s ease-in-out infinite 4s; }
-        .nailong-4 { top: 25%; left: 75%; animation: nailongFloat 13s ease-in-out infinite 6s; width: 90px;}
-
-        @keyframes nailongFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
-            50% { transform: translateY(-60px) rotate(15deg) scale(1.05); }
-        }
-
-        /* Dekorasi Kaki Nailong di Sudut Bawah */
-        body::after {
+        .cloud::after, .cloud::before {
             content: '';
-            position: fixed;
-            bottom: -20px;
-            left: -20px;
-            width: 150px;
-            height: 150px;
-            background-image: url('https://i.ibb.co/7C9m7w4/nailong-footprint.png'); /* Jejak kaki Nailong */
-            background-size: contain;
-            background-repeat: no-repeat;
-            opacity: 0.3;
-            z-index: -1;
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
         }
 
-        /* --- Header dengan Gambar Nailong Besar --- */
+        /* Ukuran & Posisi Awan */
+        .cloud-1 { width: 100px; height: 40px; top: 10%; left: -100px; animation: cloudMove 25s linear infinite; }
+        .cloud-1::after { width: 50px; height: 50px; top: -25px; left: 15px; }
+        .cloud-1::before { width: 40px; height: 40px; top: -15px; left: 50px; }
+
+        .cloud-2 { width: 150px; height: 60px; top: 30%; left: -150px; animation: cloudMove 35s linear infinite 5s; opacity: 0.6; }
+        .cloud-2::after { width: 80px; height: 80px; top: -40px; left: 20px; }
+        .cloud-2::before { width: 60px; height: 60px; top: -20px; left: 70px; }
+
+        .cloud-3 { width: 80px; height: 30px; top: 60%; left: -80px; animation: cloudMove 20s linear infinite 10s; }
+        .cloud-3::after { width: 40px; height: 40px; top: -20px; left: 10px; }
+        .cloud-3::before { width: 30px; height: 30px; top: -10px; left: 40px; }
+
+        .cloud-4 { width: 120px; height: 50px; top: 80%; left: -120px; animation: cloudMove 30s linear infinite 15s; opacity: 0.7; }
+        .cloud-4::after { width: 60px; height: 60px; top: -30px; left: 15px; }
+        .cloud-4::before { width: 50px; height: 50px; top: -15px; left: 60px; }
+
+        @keyframes cloudMove {
+            to { left: 100vw; }
+        }
+
+        /* --- Header dengan Doraemon Lucu & Judul Bulat --- */
         header { 
             text-align: center; 
             padding: 3rem 2rem 1.5rem; 
@@ -96,47 +97,56 @@
             align-items: center;
         }
 
-        .nailong-header-img {
-            width: 120px; /* Nailong besar di header */
+        .doraemon-header-img {
+            width: 130px; /* Doraemon besar di header */
             height: auto;
             margin-bottom: 1rem;
-            filter: drop-shadow(0 10px 20px rgba(255, 140, 0, 0.4));
-            animation: nailongBob 3s ease-in-out infinite;
+            filter: drop-shadow(0 10px 15px rgba(30, 136, 229, 0.3));
+            animation: doraemonBob 4s ease-in-out infinite;
         }
         
-        @keyframes nailongBob {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-10px) scale(1.02); }
+        @keyframes doraemonBob {
+            0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
+            50% { transform: translateY(-15px) scale(1.03) rotate(5deg); }
         }
 
         h1 {
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Kosugi Maru', sans-serif;
             font-size: 3.5rem;
-            font-weight: 700;
+            font-weight: 800;
             color: #fff;
             text-shadow: 
-                4px 4px 0px var(--secondary),
-                -1px -1px 0px var(--secondary),  
-                 1px -1px 0px var(--secondary),
-                -1px  1px 0px var(--secondary),
-                 1px  1px 0px var(--secondary);
-            margin-bottom: 0.2rem;
+                4px 4px 0px var(--primary-dark),
+                -1px -1px 0px var(--primary-dark),  
+                 1px -1px 0px var(--primary-dark),
+                -1px  1px 0px var(--primary-dark),
+                 1px  1px 0px var(--primary-dark);
+            margin-bottom: 0.3rem;
             letter-spacing: -2px;
         }
 
         .subtitle {
-            font-family: 'Fredoka', sans-serif;
-            color: var(--secondary);
-            font-size: 1.2rem;
-            font-weight: 600;
+            font-family: 'Varela Round', sans-serif;
+            color: var(--primary-dark);
+            font-size: 1.1rem;
+            font-weight: 700;
             letter-spacing: 1px;
-            background: #fff;
-            padding: 5px 15px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 5px 20px;
             border-radius: 20px;
-            box-shadow: 0 5px 15px rgba(255, 214, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(30, 136, 229, 0.1);
+            position: relative;
+        }
+        /* Dekorasi Lonceng Kecil di Subtitle */
+        .subtitle::before {
+            content: '🔔';
+            position: absolute;
+            left: -10px; top: -5px;
+            font-size: 1.2rem;
+            transform: rotate(-15deg);
         }
 
-        /* --- Kontainer Utama (Melayang Gemoy) --- */
+        /* --- Kontainer Utama (Melayang & Berdekorasi) --- */
         .wrapper {
             position: relative;
             width: 100%;
@@ -146,31 +156,47 @@
 
         .container {
             background: var(--card-bg);
-            border: 5px solid var(--card-border);
+            border: 6px solid var(--primary);
             border-radius: 35px;
             padding: 2.5rem;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 25px 50px rgba(255, 214, 0, 0.25);
+            box-shadow: 0 25px 60px rgba(30, 136, 229, 0.2);
             position: relative;
         }
 
-        /* Gambar Nailong Ngintip di Pojok Atas */
+        /* Doraemon Ngintip di Pojok Atas (Kanan) */
         .container::before {
             content: '';
             position: absolute;
-            top: -45px;
-            right: -30px;
-            width: 90px;
-            height: 90px;
-            background-image: url('https://i.ibb.co/v4S8L8T/nailong-peek.png'); /* Nailong ngintip */
+            top: -55px;
+            right: -35px;
+            width: 100px;
+            height: 100px;
+            background-image: url('https://i.ibb.co/L9H8b4y/doraemon-peek.png'); /* Doraemon ngintip */
             background-size: contain;
             background-repeat: no-repeat;
-            transform: rotate(10deg);
+            transform: rotate(5deg);
             z-index: 10;
         }
 
-        /* --- Tab Navigasi Super Bulat --- */
+        /* Dekorasi Lonceng di Tengah Bawah Kontainer */
+        .container::after {
+            content: '';
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background-image: url('https://i.ibb.co/3C6m8V7/doraemon-bell.png'); /* Lonceng Doraemon */
+            background-size: contain;
+            background-repeat: no-repeat;
+            filter: drop-shadow(0 5px 10px rgba(255, 235, 59, 0.5));
+            z-index: 5;
+        }
+
+        /* --- Tab Navigasi Super Bulat ala Kantong Ajaib --- */
         .tabs {
             display: flex;
             gap: 0.8rem;
@@ -178,7 +204,7 @@
             background: #fff;
             padding: 0.7rem;
             border-radius: 25px;
-            border: 3px solid #eee;
+            border: 3px solid #e1f5fe;
             flex-wrap: wrap;
         }
 
@@ -189,33 +215,33 @@
             border: none;
             background: transparent;
             color: var(--text-muted);
-            font-family: 'Fredoka', sans-serif;
-            font-weight: 600;
+            font-family: 'Varela Round', sans-serif;
+            font-weight: 700;
             font-size: 1rem;
             border-radius: 18px;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .tab-btn:hover { background: #fff8e1; color: var(--primary); transform: scale(1.05); }
+        .tab-btn:hover { background: #e1f5fe; color: var(--primary); transform: scale(1.05); }
 
         .tab-btn.active { color: white !important; font-weight: 700; }
         .tab-btn.active[data-target="tiktok"] { background: var(--tiktok); box-shadow: 0 5px 15px rgba(255, 0, 80, 0.3); }
         .tab-btn.active[data-target="discord"] { background: var(--discord); box-shadow: 0 5px 15px rgba(88, 101, 242, 0.3); }
         .tab-btn.active[data-target="facebook"] { background: var(--facebook); box-shadow: 0 5px 15px rgba(24, 119, 242, 0.3); }
 
-        /* --- Input Bulat & Empuk --- */
+        /* --- Input Bulat & Lembut --- */
         .input-group { position: relative; margin-bottom: 1.5rem; }
         
         input {
             width: 100%;
             padding: 1.3rem 1.8rem;
             background: #fff;
-            border: 3px solid #eee;
+            border: 4px solid #e1f5fe;
             border-radius: 25px;
             color: var(--text-main);
             font-size: 1.1rem;
-            font-family: 'Gaegu', cursive;
+            font-family: 'Varela Round', sans-serif;
             font-weight: 700;
             outline: none;
             transition: all 0.3s ease;
@@ -223,36 +249,37 @@
 
         input:focus { 
             border-color: var(--primary); 
-            box-shadow: 0 0 20px rgba(255, 214, 0, 0.4); 
+            box-shadow: 0 0 20px rgba(66, 165, 245, 0.3); 
         }
 
-        /* --- Tombol Proses Nailong (Empuk & Berbayang) --- */
+        /* --- Tombol Proses Doraemon (Empuk & Berbayang Merah) --- */
         .btn-process {
             width: 100%;
             padding: 1.3rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: #fff;
             border: none;
             border-radius: 25px;
             font-size: 1.4rem;
-            font-family: 'Fredoka', sans-serif;
-            font-weight: 700;
+            font-family: 'Kosugi Maru', sans-serif;
+            font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 1px;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 8px 0px #e6b800, 0 12px 25px rgba(255, 140, 0, 0.3);
+            box-shadow: 0 8px 0px #1976d2, 0 12px 25px rgba(30, 136, 229, 0.3);
             text-shadow: 1px 1px 0px rgba(0,0,0,0.2);
+            position: relative;
         }
 
         .btn-process:hover { 
             transform: translateY(-4px); 
-            box-shadow: 0 12px 0px #e6b800, 0 15px 30px rgba(255, 140, 0, 0.4); 
+            box-shadow: 0 12px 0px #1976d2, 0 15px 30px rgba(30, 136, 229, 0.4); 
         }
 
         .btn-process:active {
             transform: translateY(4px);
-            box-shadow: 0 4px 0px #e6b800, 0 8px 15px rgba(255, 140, 0, 0.2);
+            box-shadow: 0 4px 0px #1976d2, 0 8px 15px rgba(30, 136, 229, 0.2);
         }
 
         /* --- Area Hasil (Putih Bersih) --- */
@@ -261,26 +288,26 @@
             padding: 1.8rem;
             border-radius: 25px;
             background: #fff;
-            border: 4px solid var(--card-border);
+            border: 5px solid var(--primary);
             display: none;
             word-break: break-word;
             animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* --- Loading Nailong Super Lucu --- */
+        /* --- Loading Doraemon Baling-baling Bambu --- */
         .loader-wrapper {
             display: none;
             text-align: center;
             margin: 1rem auto;
         }
-        .nailong-loader-img {
-            width: 80px; /* Nailong berputar saat loading */
-            animation: nailongSpin 2s linear infinite;
+        .bamboo-loader-img {
+            width: 80px; /* Baling-baling bambu berputar */
+            animation: bambooSpin 1.5s linear infinite;
         }
         .loading-text {
-            color: var(--secondary);
-            font-family: 'Fredoka', sans-serif;
-            font-weight: 600;
+            color: var(--primary-dark);
+            font-family: 'Varela Round', sans-serif;
+            font-weight: 700;
             margin-top: 0.8rem;
             font-size: 1.1rem;
         }
@@ -289,16 +316,16 @@
         .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1.2rem; margin-top: 1.8rem; }
         
         .media-item {
-            background: #fff8e1;
+            background: #e3f2fd;
             padding: 1rem;
             border-radius: 22px;
             text-align: center;
-            border: 3px solid var(--card-border);
+            border: 3px solid var(--primary);
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
         }
 
-        .media-item:hover { transform: scale(1.08) rotate(3deg); border-color: var(--primary); box-shadow: 0 10px 20px rgba(255, 214, 0, 0.2); }
+        .media-item:hover { transform: scale(1.08) rotate(3deg); border-color: var(--accent); box-shadow: 0 10px 20px rgba(255, 235, 59, 0.2); }
         
         .media-item img, .media-item video {
             width: 100%;
@@ -318,7 +345,7 @@
             background: var(--secondary);
             color: #fff;
             text-decoration: none;
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Varela Round', sans-serif;
             font-weight: 700;
             border-radius: 14px;
             font-size: 0.95rem;
@@ -326,13 +353,13 @@
             box-shadow: 0 5px 0px #cd6600;
         }
         
-        .btn-download:hover { background: var(--primary); box-shadow: 0 5px 0px #e6b800; transform: translateY(-3px); }
+        .btn-download:hover { background: var(--accent); color: var(--text-main); box-shadow: 0 5px 0px #e6b800; transform: translateY(-3px); }
 
-        /* --- Keyframes Animasi Lucu --- */
+        /* --- Keyframes Animasi Lucu & Mewah --- */
         @keyframes slideDownFade { to { opacity: 1; transform: translateY(0); } }
         @keyframes scaleIn { from { opacity: 0; transform: scale(0.9) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
         @keyframes popIn { from { opacity: 0; transform: scale(0.7); } to { opacity: 1; transform: scale(1); } }
-        @keyframes nailongSpin { 
+        @keyframes bambooSpin { 
             0% { transform: rotate(0deg); } 
             100% { transform: rotate(360deg); } 
         }
@@ -341,17 +368,17 @@
 </head>
 <body>
 
-    <div class="nailong-bg-animation">
-        <div class="nailong-floating nailong-img nailong-1"></div>
-        <div class="nailong-floating nailong-img nailong-2"></div>
-        <div class="nailong-floating nailong-img nailong-3"></div>
-        <div class="nailong-floating nailong-img nailong-4"></div>
+    <div class="sky-bg-animation">
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+        <div class="cloud cloud-3"></div>
+        <div class="cloud cloud-4"></div>
     </div>
 
     <header>
-        <img src="https://i.ibb.co/wMs46K3/nailong-cute-sit.png" alt="Cute Nailong" class="nailong-header-img">
+        <img src="https://i.ibb.co/hK8b4Jp/doraemon-cute.png" alt="Cute Doraemon" class="doraemon-header-img">
         <h1>WINYUK API</h1>
-        <p class="subtitle">🐉 Nailong Super Cute Downloader 🐉</p>
+        <p class="subtitle">Magic Downloader ala Kantong Ajaib 🐱💙</p>
     </header>
 
     <div class="wrapper">
@@ -363,14 +390,14 @@
             </div>
 
             <div class="input-group">
-                <input type="text" id="urlInput" placeholder="Kasih aku link TikTok-nya dong! 🐉" autocomplete="off">
+                <input type="text" id="urlInput" placeholder="Kasih aku link-nya dong, ya! 🐱" autocomplete="off">
             </div>
 
             <button class="btn-process" id="processBtn" onclick="processDownload()">
                 <span id="btnText">Ekstrak Sekarang!</span>
                 <div class="loader-wrapper" id="loaderWrapper">
-                    <img src="https://i.ibb.co/v4S8L8T/nailong-peek.png" alt="Nailong Loading" class="nailong-loader-img">
-                    <div class="loading-text">Nailong lagi cari datanya... Tunggu ya!</div>
+                    <img src="https://i.ibb.co/68H8b4T/bamboo-copter.png" alt="Bamboo Copter Loading" class="bamboo-loader-img">
+                    <div class="loading-text">Doraemon lagi cari datanya... Tunggu ya!</div>
                 </div>
             </button>
 
@@ -387,9 +414,9 @@
             document.querySelector(`.tab-btn[data-target="${mode}"]`).classList.add('active');
             
             const input = document.getElementById('urlInput');
-            if (mode === 'tiktok') input.placeholder = 'Kasih aku link TikTok-nya dong! 🐉';
-            else if (mode === 'discord') input.placeholder = 'Mana link Discord gemoy-nya? 🐉';
-            else if (mode === 'facebook') input.placeholder = 'Link video Facebook-nya di sini ya! 🐉';
+            if (mode === 'tiktok') input.placeholder = 'Kasih aku link TikTok-nya dong, ya! 🐱';
+            else if (mode === 'discord") input.placeholder = 'Mana link Discord gemoy-nya? 🐱';
+            else if (mode === 'facebook') input.placeholder = 'Link video Facebook-nya di sini, ya! 🐱';
             
             input.value = '';
             document.getElementById('resultBox').style.display = 'none';
@@ -403,11 +430,11 @@
             const resultBox = document.getElementById('resultBox');
 
             if (!urlInput) {
-                alert('Tautannya diisi dulu dong, nanti Nailong bingung! 🐉');
+                alert('Tautannya diisi dulu dong, nanti Doraemon bingung! 🐱');
                 return;
             }
 
-            // UI Loading ala Nailong
+            // UI Loading ala Doraemon (Baling-baling Bambu)
             btnText.style.display = 'none';
             loaderWrapper.style.display = 'block';
             resultBox.style.display = 'none';
@@ -429,7 +456,7 @@
                             mediaHTML += `
                                 <div class="media-item" style="animation-delay: ${animDelay}s">
                                     ${data.type === 'image' 
-                                        ? `<img src="${link}" alt="Nailong Extracted Media">` 
+                                        ? `<img src="${link}" alt="Doraemon Extracted Media">` 
                                         : `<video src="${link}" controls></video>`}
                                     <a href="${link}" target="_blank" class="btn-download">Unduh Media!</a>
                                 </div>
@@ -439,35 +466,35 @@
                     } 
                     else if (data.type === 'file') {
                         mediaHTML = `
-                            <div class="media-item" style="margin-top: 1rem; padding: 2.5rem; border-style: dashed;">
-                                <a href="${data.media[0]}" target="_blank" class="btn-download" style="padding: 1.2rem; font-size: 1.2rem; border-radius: 20px;">[ BUKA FILE GEMOY ]</a>
+                            <div class="media-item" style="margin-top: 1rem; padding: 2.5rem; border-style: dashed; border-color: var(--primary);">
+                                <a href="${data.media[0]}" target="_blank" class="btn-download" style="padding: 1.2rem; font-size: 1.2rem; border-radius: 20px;">[ BUKA FILE AJAIB ]</a>
                             </div>
                         `;
                     }
 
                     // Dinamika Warna Status Berdasarkan Platform (Tema Ceria)
-                    let statusColor = '#ff8c00'; // Default Nailong Orange
+                    let statusColor = '#42a5f5'; // Default Doraemon Blue
                     if (currentMode === 'discord') statusColor = '#5865F2';
                     if (currentMode === 'facebook') statusColor = '#1877F2';
 
                     resultBox.innerHTML = `
-                        <div style="border-bottom: 3px solid var(--card-border); padding-bottom: 1rem; margin-bottom: 1.5rem; position: relative;">
-                            <h3 style="color: ${statusColor}; font-family: 'Fredoka', sans-serif; font-size: 1.4rem; margin-bottom: 8px;">DAPET! 🐉✨</h3>
+                        <div style="border-bottom: 4px solid var(--primary); padding-bottom: 1rem; margin-bottom: 1.5rem; position: relative;">
+                            <h3 style="color: ${statusColor}; font-family: 'Kosugi Maru', sans-serif; font-size: 1.5rem; margin-bottom: 8px;">DAPET! 🐱✨</h3>
                             ${data.author ? `<p style="color: var(--text-muted); font-size: 1rem; font-weight:700;"><strong>User:</strong> @${data.author}</p>` : ''}
-                            ${data.title ? `<p style="color: var(--text-main); font-size: 0.95rem; margin-top: 8px; line-height: 1.5; font-weight:800; font-family:'Fredoka', sans-serif;">${data.title}</p>` : ''}
+                            ${data.title ? `<p style="color: var(--text-main); font-size: 0.95rem; margin-top: 8px; line-height: 1.5; font-weight:800; font-family:'Varela Round', sans-serif;">${data.title}</p>` : ''}
                         </div>
                         ${mediaHTML}
                     `;
                 } else {
                     resultBox.innerHTML = `
-                        <p style="color: #ff0050; font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 1.1rem; text-align:center;">
-                            > OOPS! Nailong Gagal Cari Data: ${data.message}
+                        <p style="color: var(--secondary); font-family: 'Varela Round', sans-serif; font-weight: 700; font-size: 1.1rem; text-align:center;">
+                            > OOPS! Doraemon Gagal Cari Data: ${data.message}
                         </p>`;
                 }
             } catch (error) {
                 resultBox.style.display = 'block';
                 resultBox.innerHTML = `
-                    <p style="color: #ff0050; font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 1.1rem; text-align:center;">
+                    <p style="color: var(--secondary); font-family: 'Varela Round', sans-serif; font-weight: 700; font-size: 1.1rem; text-align:center;">
                         > WAH! Koneksi Putus: Tidak bisa hubungi Vercel API. 
                     </p>`;
             } finally {
