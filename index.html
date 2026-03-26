@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WINYUK | Nailong API Extractor</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
+    <title>WINYUK | Nailong Super Cute Downloader</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-base: #fffdeb; /* Kuning Pastel Lembut Nailong */
@@ -15,8 +15,8 @@
             --facebook: #1877F2;
             --text-main: #5d4037; /* Cokelat Tua Lembut */
             --text-muted: #8d6e63;
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --card-border: rgba(255, 214, 0, 0.3);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --card-border: rgba(255, 214, 0, 0.4);
         }
 
         * { 
@@ -28,7 +28,7 @@
         body {
             background-color: var(--bg-base);
             color: var(--text-main);
-            font-family: 'Sniglet', cursive;
+            font-family: 'Gaegu', cursive;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -37,68 +37,106 @@
             position: relative;
         }
 
-        /* --- Animasi Nailong Full Layar (Background) --- */
+        /* --- Animasi Latar Belakang Nailong Melompat-lompat (FULL ANIMATION) --- */
         .nailong-bg-animation {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: -1;
+            z-index: -2;
             pointer-events: none;
             overflow: hidden;
         }
 
-        /* Elemen Nailong Melompat di Background */
-        .nailong-character {
+        .nailong-floating {
             position: absolute;
-            width: 80px; height: 80px;
-            background-color: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            box-shadow: 0 5px 15px rgba(255, 214, 0, 0.4);
-            opacity: 0.7;
+            width: 100px; /* Ukuran gambar Nailong di background */
+            height: auto;
+            opacity: 0.6;
+            filter: drop-shadow(0 5px 10px rgba(255, 214, 0, 0.3));
         }
-        /* Ikon Nailong Sederhana (bisa diganti gambar asli) */
-        .nailong-character::before { content: '🐉'; } 
 
-        .nailong-1 { top: 10%; left: 10%; animation: nailongJump 6s ease-in-out infinite; }
-        .nailong-2 { top: 60%; left: 80%; animation: nailongJump 8s ease-in-out infinite 1s; }
-        .nailong-3 { top: 80%; left: 20%; animation: nailongJump 7s ease-in-out infinite 2s; }
-        .nailong-4 { top: 30%; left: 70%; animation: nailongJump 9s ease-in-out infinite 3s; }
+        /* Menggunakan URL gambar Nailong asli yang lucu dari internet */
+        .nailong-img {
+            content: url('https://i.ibb.co/wMs46K3/nailong-cute-sit.png'); /* Nailong duduk gemas */
+        }
 
-        @keyframes nailongJump {
+        .nailong-1 { top: 10%; left: 5%; animation: nailongFloat 10s ease-in-out infinite; }
+        .nailong-2 { top: 70%; left: 85%; animation: nailongFloat 12s ease-in-out infinite 2s; width: 80px;}
+        .nailong-3 { top: 85%; left: 15%; animation: nailongFloat 11s ease-in-out infinite 4s; }
+        .nailong-4 { top: 25%; left: 75%; animation: nailongFloat 13s ease-in-out infinite 6s; width: 90px;}
+
+        @keyframes nailongFloat {
             0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
-            50% { transform: translateY(-50px) rotate(20deg) scale(1.1); }
+            50% { transform: translateY(-60px) rotate(15deg) scale(1.05); }
         }
 
-        /* --- Header & Title --- */
+        /* Dekorasi Kaki Nailong di Sudut Bawah */
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -20px;
+            left: -20px;
+            width: 150px;
+            height: 150px;
+            background-image: url('https://i.ibb.co/7C9m7w4/nailong-footprint.png'); /* Jejak kaki Nailong */
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        /* --- Header dengan Gambar Nailong Besar --- */
         header { 
             text-align: center; 
-            padding: 4rem 2rem 2rem; 
+            padding: 3rem 2rem 1.5rem; 
             animation: slideDownFade 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
             opacity: 0;
             transform: translateY(-40px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .nailong-header-img {
+            width: 120px; /* Nailong besar di header */
+            height: auto;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 10px 20px rgba(255, 140, 0, 0.4));
+            animation: nailongBob 3s ease-in-out infinite;
         }
         
+        @keyframes nailongBob {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.02); }
+        }
+
         h1 {
-            font-family: 'Fredoka One', cursive;
+            font-family: 'Fredoka', sans-serif;
             font-size: 3.5rem;
-            font-weight: 800;
-            color: var(--primary);
-            text-shadow: 3px 3px 0px var(--secondary), 5px 5px 0px rgba(0,0,0,0.1);
-            margin-bottom: 0.5rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 
+                4px 4px 0px var(--secondary),
+                -1px -1px 0px var(--secondary),  
+                 1px -1px 0px var(--secondary),
+                -1px  1px 0px var(--secondary),
+                 1px  1px 0px var(--secondary);
+            margin-bottom: 0.2rem;
+            letter-spacing: -2px;
         }
 
         .subtitle {
-            font-family: 'Sniglet', cursive;
+            font-family: 'Fredoka', sans-serif;
             color: var(--secondary);
-            font-size: 1.1rem;
-            font-weight: 800;
+            font-size: 1.2rem;
+            font-weight: 600;
             letter-spacing: 1px;
+            background: #fff;
+            padding: 5px 15px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(255, 214, 0, 0.2);
         }
 
-        /* --- Kontainer Utama Tema Ceria --- */
+        /* --- Kontainer Utama (Melayang Gemoy) --- */
         .wrapper {
             position: relative;
             width: 100%;
@@ -108,35 +146,39 @@
 
         .container {
             background: var(--card-bg);
-            border: 4px solid var(--card-border);
-            border-radius: 30px;
+            border: 5px solid var(--card-border);
+            border-radius: 35px;
             padding: 2.5rem;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 20px 40px rgba(255, 214, 0, 0.2);
+            box-shadow: 0 25px 50px rgba(255, 214, 0, 0.25);
             position: relative;
-            overflow: hidden;
         }
 
-        /* Dekorasi Sudut Nailong */
+        /* Gambar Nailong Ngintip di Pojok Atas */
         .container::before {
-            content: '🐉';
+            content: '';
             position: absolute;
-            top: -15px; right: -15px;
-            font-size: 3rem;
-            transform: rotate(15deg);
-            opacity: 0.8;
+            top: -45px;
+            right: -30px;
+            width: 90px;
+            height: 90px;
+            background-image: url('https://i.ibb.co/v4S8L8T/nailong-peek.png'); /* Nailong ngintip */
+            background-size: contain;
+            background-repeat: no-repeat;
+            transform: rotate(10deg);
+            z-index: 10;
         }
 
-        /* --- Tab Navigasi --- */
+        /* --- Tab Navigasi Super Bulat --- */
         .tabs {
             display: flex;
             gap: 0.8rem;
             margin-bottom: 2rem;
             background: #fff;
-            padding: 0.6rem;
-            border-radius: 20px;
-            border: 2px solid var(--card-border);
+            padding: 0.7rem;
+            border-radius: 25px;
+            border: 3px solid #eee;
             flex-wrap: wrap;
         }
 
@@ -147,151 +189,149 @@
             border: none;
             background: transparent;
             color: var(--text-muted);
-            font-weight: 800;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
             font-size: 1rem;
-            border-radius: 15px;
+            border-radius: 18px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .tab-btn:hover { background: #fff8e1; color: var(--primary); }
+        .tab-btn:hover { background: #fff8e1; color: var(--primary); transform: scale(1.05); }
 
-        .tab-btn.active[data-target="tiktok"] { 
-            background: var(--tiktok); color: white; box-shadow: 0 5px 15px rgba(255, 0, 80, 0.3);
-        }
-        .tab-btn.active[data-target="discord"] { 
-            background: var(--discord); color: white; box-shadow: 0 5px 15px rgba(88, 101, 242, 0.3);
-        }
-        .tab-btn.active[data-target="facebook"] { 
-            background: var(--facebook); color: white; box-shadow: 0 5px 15px rgba(24, 119, 242, 0.3);
-        }
+        .tab-btn.active { color: white !important; font-weight: 700; }
+        .tab-btn.active[data-target="tiktok"] { background: var(--tiktok); box-shadow: 0 5px 15px rgba(255, 0, 80, 0.3); }
+        .tab-btn.active[data-target="discord"] { background: var(--discord); box-shadow: 0 5px 15px rgba(88, 101, 242, 0.3); }
+        .tab-btn.active[data-target="facebook"] { background: var(--facebook); box-shadow: 0 5px 15px rgba(24, 119, 242, 0.3); }
 
-        /* --- Input Bulat & Lucu --- */
+        /* --- Input Bulat & Empuk --- */
         .input-group { position: relative; margin-bottom: 1.5rem; }
         
         input {
             width: 100%;
-            padding: 1.2rem 1.5rem;
+            padding: 1.3rem 1.8rem;
             background: #fff;
             border: 3px solid #eee;
-            border-radius: 20px;
+            border-radius: 25px;
             color: var(--text-main);
-            font-size: 1rem;
-            font-family: 'Sniglet', cursive;
+            font-size: 1.1rem;
+            font-family: 'Gaegu', cursive;
+            font-weight: 700;
             outline: none;
             transition: all 0.3s ease;
         }
 
         input:focus { 
             border-color: var(--primary); 
-            box-shadow: 0 0 15px rgba(255, 214, 0, 0.3); 
+            box-shadow: 0 0 20px rgba(255, 214, 0, 0.4); 
         }
 
-        /* --- Tombol Proses Nailong --- */
+        /* --- Tombol Proses Nailong (Empuk & Berbayang) --- */
         .btn-process {
             width: 100%;
-            padding: 1.2rem;
+            padding: 1.3rem;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: #fff;
             border: none;
-            border-radius: 20px;
-            font-size: 1.2rem;
-            font-family: 'Fredoka One', cursive;
-            font-weight: 800;
+            border-radius: 25px;
+            font-size: 1.4rem;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 0px #e6b800, 0 10px 20px rgba(255, 140, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 0px #e6b800, 0 12px 25px rgba(255, 140, 0, 0.3);
             text-shadow: 1px 1px 0px rgba(0,0,0,0.2);
         }
 
         .btn-process:hover { 
-            transform: translateY(-3px); 
-            box-shadow: 0 10px 0px #e6b800, 0 12px 25px rgba(255, 140, 0, 0.4); 
+            transform: translateY(-4px); 
+            box-shadow: 0 12px 0px #e6b800, 0 15px 30px rgba(255, 140, 0, 0.4); 
         }
 
         .btn-process:active {
-            transform: translateY(3px);
-            box-shadow: 0 3px 0px #e6b800, 0 5px 10px rgba(255, 140, 0, 0.2);
+            transform: translateY(4px);
+            box-shadow: 0 4px 0px #e6b800, 0 8px 15px rgba(255, 140, 0, 0.2);
         }
 
-        /* --- Area Hasil --- */
+        /* --- Area Hasil (Putih Bersih) --- */
         .result-box {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            border-radius: 20px;
+            margin-top: 2.5rem;
+            padding: 1.8rem;
+            border-radius: 25px;
             background: #fff;
-            border: 3px solid var(--card-border);
+            border: 4px solid var(--card-border);
             display: none;
             word-break: break-word;
-            animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* --- Custom Animasi Loading Nailong --- */
+        /* --- Loading Nailong Super Lucu --- */
         .loader-wrapper {
             display: none;
             text-align: center;
             margin: 1rem auto;
         }
-        .nailong-loader {
-            font-size: 3rem;
-            animation: nailongSpin 1.5s linear infinite;
-            display: inline-block;
+        .nailong-loader-img {
+            width: 80px; /* Nailong berputar saat loading */
+            animation: nailongSpin 2s linear infinite;
         }
         .loading-text {
             color: var(--secondary);
-            font-weight: 800;
-            margin-top: 0.5rem;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            margin-top: 0.8rem;
+            font-size: 1.1rem;
         }
 
-        /* --- Media Grid --- */
-        .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+        /* --- Media Grid (Hasil Extrak) --- */
+        .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1.2rem; margin-top: 1.8rem; }
         
         .media-item {
             background: #fff8e1;
             padding: 1rem;
-            border-radius: 20px;
+            border-radius: 22px;
             text-align: center;
-            border: 2px solid var(--card-border);
-            transition: transform 0.3s ease;
-            animation: popIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+            border: 3px solid var(--card-border);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
         }
 
-        .media-item:hover { transform: scale(1.05) rotate(2deg); border-color: var(--primary); }
+        .media-item:hover { transform: scale(1.08) rotate(3deg); border-color: var(--primary); box-shadow: 0 10px 20px rgba(255, 214, 0, 0.2); }
         
         .media-item img, .media-item video {
             width: 100%;
-            border-radius: 15px;
+            border-radius: 18px;
             margin-bottom: 1rem;
             aspect-ratio: 9/16;
             object-fit: cover;
             background: #fff;
-            border: 3px solid #fff;
+            border: 4px solid #fff;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
         .btn-download {
             display: inline-block;
             width: 100%;
-            padding: 0.7rem;
+            padding: 0.8rem;
             background: var(--secondary);
             color: #fff;
             text-decoration: none;
-            font-weight: 800;
-            border-radius: 12px;
-            font-size: 0.9rem;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 700;
+            border-radius: 14px;
+            font-size: 0.95rem;
             transition: all 0.3s;
-            box-shadow: 0 4px 0px #cd6600;
+            box-shadow: 0 5px 0px #cd6600;
         }
         
-        .btn-download:hover { background: var(--primary); box-shadow: 0 4px 0px #e6b800; transform: translateY(-2px); }
+        .btn-download:hover { background: var(--primary); box-shadow: 0 5px 0px #e6b800; transform: translateY(-3px); }
 
-        /* --- Keyframes Animasi --- */
+        /* --- Keyframes Animasi Lucu --- */
         @keyframes slideDownFade { to { opacity: 1; transform: translateY(0); } }
-        @keyframes scaleIn { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-        @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.9) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.7); } to { opacity: 1; transform: scale(1); } }
         @keyframes nailongSpin { 
             0% { transform: rotate(0deg); } 
             100% { transform: rotate(360deg); } 
@@ -302,15 +342,16 @@
 <body>
 
     <div class="nailong-bg-animation">
-        <div class="nailong-character nailong-1"></div>
-        <div class="nailong-character nailong-2"></div>
-        <div class="nailong-character nailong-3"></div>
-        <div class="nailong-character nailong-4"></div>
+        <div class="nailong-floating nailong-img nailong-1"></div>
+        <div class="nailong-floating nailong-img nailong-2"></div>
+        <div class="nailong-floating nailong-img nailong-3"></div>
+        <div class="nailong-floating nailong-img nailong-4"></div>
     </div>
 
     <header>
+        <img src="https://i.ibb.co/wMs46K3/nailong-cute-sit.png" alt="Cute Nailong" class="nailong-header-img">
         <h1>WINYUK API</h1>
-        <p class="subtitle">🐉 NAILONG_POWERED / MEDIA_EXTRACTOR 🐉</p>
+        <p class="subtitle">🐉 Nailong Super Cute Downloader 🐉</p>
     </header>
 
     <div class="wrapper">
@@ -322,14 +363,14 @@
             </div>
 
             <div class="input-group">
-                <input type="text" id="urlInput" placeholder="Tempel URL TikTok di sini, ya! 🐉" autocomplete="off">
+                <input type="text" id="urlInput" placeholder="Kasih aku link TikTok-nya dong! 🐉" autocomplete="off">
             </div>
 
             <button class="btn-process" id="processBtn" onclick="processDownload()">
-                <span id="btnText">Ekstrak Media!</span>
+                <span id="btnText">Ekstrak Sekarang!</span>
                 <div class="loader-wrapper" id="loaderWrapper">
-                    <div class="nailong-loader">🐉</div>
-                    <div class="loading-text">Nailong sedang bekerja...</div>
+                    <img src="https://i.ibb.co/v4S8L8T/nailong-peek.png" alt="Nailong Loading" class="nailong-loader-img">
+                    <div class="loading-text">Nailong lagi cari datanya... Tunggu ya!</div>
                 </div>
             </button>
 
@@ -346,9 +387,9 @@
             document.querySelector(`.tab-btn[data-target="${mode}"]`).classList.add('active');
             
             const input = document.getElementById('urlInput');
-            if (mode === 'tiktok') input.placeholder = 'Tempel URL TikTok di sini, ya! 🐉';
-            else if (mode === 'discord') input.placeholder = 'Tempel URL Lampiran Discord-nya! 🐉';
-            else if (mode === 'facebook') input.placeholder = 'Mana URL Video Facebook-nya? 🐉';
+            if (mode === 'tiktok') input.placeholder = 'Kasih aku link TikTok-nya dong! 🐉';
+            else if (mode === 'discord') input.placeholder = 'Mana link Discord gemoy-nya? 🐉';
+            else if (mode === 'facebook') input.placeholder = 'Link video Facebook-nya di sini ya! 🐉';
             
             input.value = '';
             document.getElementById('resultBox').style.display = 'none';
@@ -362,16 +403,17 @@
             const resultBox = document.getElementById('resultBox');
 
             if (!urlInput) {
-                alert('Tautannya jangan lupa diisi, ya! 🐉');
+                alert('Tautannya diisi dulu dong, nanti Nailong bingung! 🐉');
                 return;
             }
 
-            // Animasi loading ala Nailong
+            // UI Loading ala Nailong
             btnText.style.display = 'none';
             loaderWrapper.style.display = 'block';
             resultBox.style.display = 'none';
 
             try {
+                // Endpoint Vercel API (Asumsi Anda sudah deploy backend-nya)
                 const response = await fetch(`/api/${currentMode}?url=${encodeURIComponent(urlInput)}`);
                 const data = await response.json();
 
@@ -389,7 +431,7 @@
                                     ${data.type === 'image' 
                                         ? `<img src="${link}" alt="Nailong Extracted Media">` 
                                         : `<video src="${link}" controls></video>`}
-                                    <a href="${link}" target="_blank" class="btn-download">Unduh!</a>
+                                    <a href="${link}" target="_blank" class="btn-download">Unduh Media!</a>
                                 </div>
                             `;
                         });
@@ -397,31 +439,36 @@
                     } 
                     else if (data.type === 'file') {
                         mediaHTML = `
-                            <div class="media-item" style="margin-top: 1rem; padding: 2rem;">
-                                <a href="${data.media[0]}" target="_blank" class="btn-download" style="padding: 1rem; font-size: 1.1rem;">[ BUKA FILE ]</a>
+                            <div class="media-item" style="margin-top: 1rem; padding: 2.5rem; border-style: dashed;">
+                                <a href="${data.media[0]}" target="_blank" class="btn-download" style="padding: 1.2rem; font-size: 1.2rem; border-radius: 20px;">[ BUKA FILE GEMOY ]</a>
                             </div>
                         `;
                     }
 
+                    // Dinamika Warna Status Berdasarkan Platform (Tema Ceria)
+                    let statusColor = '#ff8c00'; // Default Nailong Orange
+                    if (currentMode === 'discord') statusColor = '#5865F2';
+                    if (currentMode === 'facebook') statusColor = '#1877F2';
+
                     resultBox.innerHTML = `
-                        <div style="border-bottom: 2px solid var(--card-border); padding-bottom: 1rem; margin-bottom: 1rem;">
-                            <h3 style="color: var(--secondary); font-family: 'Fredoka One', cursive; margin-bottom: 8px;">BERHASIL! 🐉</h3>
-                            ${data.author ? `<p style="color: var(--text-muted); font-size: 0.95rem;"><strong>User:</strong> @${data.author}</p>` : ''}
-                            ${data.title ? `<p style="color: var(--text-main); font-size: 0.85rem; margin-top: 5px; line-height: 1.5; font-weight:800;">${data.title}</p>` : ''}
+                        <div style="border-bottom: 3px solid var(--card-border); padding-bottom: 1rem; margin-bottom: 1.5rem; position: relative;">
+                            <h3 style="color: ${statusColor}; font-family: 'Fredoka', sans-serif; font-size: 1.4rem; margin-bottom: 8px;">DAPET! 🐉✨</h3>
+                            ${data.author ? `<p style="color: var(--text-muted); font-size: 1rem; font-weight:700;"><strong>User:</strong> @${data.author}</p>` : ''}
+                            ${data.title ? `<p style="color: var(--text-main); font-size: 0.95rem; margin-top: 8px; line-height: 1.5; font-weight:800; font-family:'Fredoka', sans-serif;">${data.title}</p>` : ''}
                         </div>
                         ${mediaHTML}
                     `;
                 } else {
                     resultBox.innerHTML = `
-                        <p style="color: #ff0050; font-family: 'Sniglet', cursive; font-weight: 800;">
-                            > OOPS! Nailong Gagal: ${data.message}
+                        <p style="color: #ff0050; font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 1.1rem; text-align:center;">
+                            > OOPS! Nailong Gagal Cari Data: ${data.message}
                         </p>`;
                 }
             } catch (error) {
                 resultBox.style.display = 'block';
                 resultBox.innerHTML = `
-                    <p style="color: #ff0050; font-family: 'Sniglet', cursive; font-weight: 800;">
-                        > WAH! Koneksi Putus: Tidak bisa hubungi Vercel API.
+                    <p style="color: #ff0050; font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 1.1rem; text-align:center;">
+                        > WAH! Koneksi Putus: Tidak bisa hubungi Vercel API. 
                     </p>`;
             } finally {
                 // Matikan loading
