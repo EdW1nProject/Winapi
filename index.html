@@ -4,23 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WINYUK API | Premium Developer Portal</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
+    
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Outfit', 'sans-serif'],
-                        mono: ['Fira Code', 'monospace'],
-                    },
-                    colors: {
-                        darkBg: '#0a0a0a',
-                        glass: 'rgba(255, 255, 255, 0.05)',
-                        glassBorder: 'rgba(255, 255, 255, 0.1)',
-                    }
+                    fontFamily: { sans: ['Outfit', 'sans-serif'], mono: ['Fira Code', 'monospace'] },
+                    colors: { darkBg: '#0a0a0a', glass: 'rgba(255, 255, 255, 0.05)', glassBorder: 'rgba(255, 255, 255, 0.1)' }
                 }
             }
         }
@@ -39,64 +35,79 @@
             <div class="hidden md:flex space-x-8 text-sm font-medium">
                 <a href="#dashboard" class="hover:text-purple-400 transition-colors">Dashboard</a>
                 <a href="#endpoints" class="hover:text-purple-400 transition-colors">Live Tester</a>
-                <a href="#integration" class="hover:text-purple-400 transition-colors">Integration</a>
             </div>
-            <button id="navAuthBtn" class="px-6 py-2 rounded-full bg-white text-black font-semibold hover:bg-gray-200 transition-transform transform hover:scale-105">
-                Login
+            <button id="navLoginBtn" class="px-6 py-2 rounded-full bg-white text-black font-semibold hover:bg-gray-200 transition-all transform hover:scale-105 shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                Login <i class="fa-solid fa-arrow-right-to-bracket ml-1"></i>
             </button>
         </div>
     </nav>
 
-    <div id="authModal" class="fixed inset-0 z-[60] bg-black/80 backdrop-blur-sm hidden flex justify-center items-center opacity-0 transition-opacity duration-300">
-        <div class="bg-[#111] border border-glassBorder p-8 rounded-3xl w-full max-w-md transform scale-95 transition-transform duration-300" id="authBox">
-            <div class="flex justify-between items-center mb-6">
-                <h3 id="authTitle" class="text-2xl font-bold">Welcome Back</h3>
-                <button id="closeModalBtn" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+    <div id="authModal" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md hidden flex justify-center items-center opacity-0 transition-opacity duration-300">
+        <div id="authBox" class="bg-[#0f0f13] border border-gray-800 p-8 rounded-[2rem] w-full max-w-md transform scale-95 transition-all duration-300 shadow-[0_0_40px_rgba(168,85,247,0.15)] relative overflow-hidden">
+            <div class="absolute -top-20 -right-20 w-40 h-40 bg-purple-600 rounded-full blur-[60px] opacity-20"></div>
+            
+            <div class="flex justify-between items-center mb-8 relative z-10">
+                <div>
+                    <h3 id="authTitle" class="text-3xl font-extrabold text-white tracking-wide">Sign In</h3>
+                    <p id="authSubtitle" class="text-gray-400 text-sm mt-1">Masuk ke developer portal.</p>
+                </div>
+                <button id="closeModalBtn" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-colors">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
             </div>
             
-            <div class="space-y-4">
+            <form id="authForm" class="space-y-5 relative z-10" onsubmit="return false;">
                 <div>
-                    <label class="block text-sm text-gray-400 mb-2">Username</label>
-                    <input type="text" id="usernameInput" placeholder="Masukkan username..." class="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white focus:border-purple-500 focus:outline-none transition-colors">
+                    <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Username</label>
+                    <div class="relative">
+                        <i class="fa-regular fa-user absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                        <input type="text" id="usernameInput" autocomplete="off" placeholder="winyuk_dev" required
+                            class="w-full bg-black/50 border border-gray-700 rounded-xl pl-12 pr-4 py-3.5 text-white focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none transition-all">
+                    </div>
                 </div>
                 <div>
-                    <label class="block text-sm text-gray-400 mb-2">Password</label>
-                    <input type="password" id="passwordInput" placeholder="••••••••" class="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white focus:border-purple-500 focus:outline-none transition-colors">
+                    <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Password</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                        <input type="password" id="passwordInput" placeholder="••••••••" required
+                            class="w-full bg-black/50 border border-gray-700 rounded-xl pl-12 pr-4 py-3.5 text-white focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none transition-all">
+                    </div>
                 </div>
-                
-                <p id="authErrorMsg" class="text-red-500 text-sm hidden font-medium"></p>
 
-                <button id="submitAuthBtn" class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-3 rounded-xl hover:opacity-90 transition-opacity mt-2">
-                    Masuk ke Dashboard
+                <button id="submitAuthBtn" type="submit" class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-4 rounded-xl hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all transform hover:-translate-y-1 mt-4">
+                    Login Now
                 </button>
-                
-                <div class="text-center mt-4">
-                    <p class="text-gray-400 text-sm">
-                        <span id="authSwitchText">Belum punya akun?</span> 
-                        <button id="switchAuthModeBtn" class="text-purple-400 hover:text-purple-300 font-semibold transition-colors">Daftar di sini</button>
-                    </p>
-                </div>
+            </form>
+            
+            <div class="text-center mt-6 relative z-10">
+                <p class="text-gray-400 text-sm">
+                    <span id="switchText">New here?</span> 
+                    <button id="switchModeBtn" class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 font-bold hover:opacity-80 transition-opacity ml-1 border-b border-purple-400">
+                        Create an account
+                    </button>
+                </p>
             </div>
         </div>
     </div>
-
     <section id="dashboard" class="pt-32 pb-10 px-6 flex flex-col justify-center items-center relative z-10">
         <div class="text-center max-w-3xl mx-auto mb-12 fade-in-up">
             <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
                 Empower Your Bot with <br>
                 <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-400 animate-gradient">Premium API</span>
             </h1>
-            <p id="welcomeText" class="text-lg text-gray-400 mb-8">Akses endpoint eksklusif untuk bot Discord dan WhatsApp Anda.</p>
+            <p id="welcomeText" class="text-lg text-gray-400 mb-8">Portal developer mewah untuk mengelola integrasi bot Anda.</p>
         </div>
 
         <div class="w-full max-w-2xl bg-glass backdrop-blur-xl border border-glassBorder rounded-3xl p-8 shadow-2xl relative overflow-hidden fade-in-up delay-100 group">
             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-blue-500"></div>
             
-            <div id="lockedOverlay" class="absolute inset-0 z-20 bg-[#0a0a0a]/80 backdrop-blur-md flex flex-col justify-center items-center transition-all duration-500">
-                <i class="fa-solid fa-lock text-4xl text-purple-500 mb-4"></i>
+            <div id="lockedOverlay" class="absolute inset-0 z-20 bg-[#0a0a0a]/85 backdrop-blur-md flex flex-col justify-center items-center transition-all duration-500">
+                <div class="w-20 h-20 bg-purple-500/20 rounded-full flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-lock text-3xl text-purple-400"></i>
+                </div>
                 <h3 class="text-xl font-bold mb-2">Akses Terkunci</h3>
-                <p class="text-gray-400 text-sm mb-4">Silakan login atau daftar untuk mengelola API Key Anda.</p>
-                <button id="overlayLoginBtn" class="px-6 py-2 bg-white text-black rounded-full font-semibold hover:bg-gray-200 transition-colors">Login / Daftar</button>
+                <p class="text-gray-400 text-sm mb-6 text-center px-4">Silakan login untuk mendapatkan dan mengelola API Key Anda.</p>
+                <button id="overlayLoginBtn" class="px-8 py-3 bg-white text-black rounded-full font-bold hover:bg-gray-200 transition-colors shadow-lg">Login Sekarang</button>
             </div>
 
             <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3">
@@ -105,99 +116,22 @@
             <div class="flex flex-col md:flex-row gap-4">
                 <div class="relative flex-grow">
                     <input type="password" id="apiKeyDisplay" readonly value="********************************" 
-                           class="w-full bg-black/50 border border-gray-700 rounded-xl py-4 px-5 text-gray-300 font-mono text-sm focus:outline-none transition-colors">
-                    <button id="toggleVisibility" class="absolute right-4 top-4 text-gray-400 hover:text-white transition-colors disabled:opacity-50">
+                           class="w-full bg-black/60 border border-gray-700 rounded-xl py-4 px-5 text-gray-300 font-mono text-sm focus:outline-none focus:border-purple-500 transition-colors">
+                    <button id="toggleVisibilityBtn" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors">
                         <i class="fa-regular fa-eye"></i>
                     </button>
                 </div>
-                <button id="generateBtn" class="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white px-8 py-4 rounded-xl font-semibold shadow-lg transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-rotate"></i> Reset Key
+                <button id="regenerateKeyBtn" class="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white px-6 py-4 rounded-xl font-semibold shadow-lg transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-rotate"></i>
                 </button>
-                <button id="copyKeyBtn" class="bg-white/10 hover:bg-white/20 border border-glassBorder text-white px-6 py-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2">
+                <button id="copyKeyBtn" class="bg-white/10 hover:bg-white/20 border border-glassBorder text-white px-6 py-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2" title="Copy Key">
                     <i class="fa-regular fa-copy"></i>
                 </button>
             </div>
-            <p class="text-xs text-gray-500 mt-4"><i class="fa-solid fa-triangle-exclamation text-yellow-500"></i> Simpan key ini dengan aman. Key digenerate otomatis saat registrasi.</p>
         </div>
     </section>
 
-    <section id="endpoints" class="py-16 px-6 relative z-10">
-        <div class="max-w-5xl mx-auto">
-            <div class="text-center mb-12 fade-in-up">
-                <h2 class="text-3xl font-bold mb-4">Live API Testing</h2>
-                <p class="text-gray-400">Uji coba langsung respons API kami sebelum diintegrasikan ke kode Anda.</p>
-            </div>
-            
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 fade-in-up delay-100">
-                
-                <div class="bg-glass backdrop-blur-xl border border-glassBorder rounded-2xl p-6 hover:border-pink-500/50 transition-colors group">
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 bg-black/50 rounded-xl flex items-center justify-center text-pink-500 group-hover:scale-110 transition-transform">
-                                <i class="fa-brands fa-tiktok text-2xl"></i>
-                            </div>
-                            <h4 class="text-xl font-semibold text-white">TikTok Downloader</h4>
-                        </div>
-                        <span class="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full border border-green-500/30">Active</span>
-                    </div>
-                    
-                    <div class="mt-6 border-t border-gray-800 pt-5">
-                        <label class="text-xs text-gray-400 mb-2 block font-mono uppercase tracking-wider">Test URL Endpoint</label>
-                        <div class="flex gap-2">
-                            <input type="text" id="tiktokUrl" placeholder="https://vt.tiktok.com/..." class="w-full bg-black/50 border border-gray-700 rounded-lg py-3 px-4 text-sm focus:outline-none focus:border-pink-500 text-gray-300 transition-colors">
-                            <button id="testTiktokBtn" class="bg-pink-600 hover:bg-pink-500 text-white px-6 py-3 rounded-lg text-sm font-semibold transition-colors flex items-center justify-center min-w-[100px]">
-                                Test
-                            </button>
-                        </div>
-                        
-                        <div id="tiktokResultBox" class="hidden mt-4 bg-[#050505] border border-gray-800 rounded-xl p-4 overflow-x-auto shadow-inner transition-all duration-300">
-                            <div class="flex justify-between items-center mb-2 border-b border-gray-800 pb-2">
-                                <span class="text-xs text-gray-500 font-mono">Response JSON</span>
-                                <div class="w-2 h-2 rounded-full bg-gray-500" id="tiktokStatusDot"></div>
-                            </div>
-                            <pre><code id="tiktokResult" class="text-xs font-mono leading-relaxed"></code></pre>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-glass backdrop-blur-xl border border-glassBorder rounded-2xl p-6 hover:border-indigo-500/50 transition-colors group">
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 bg-black/50 rounded-xl flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-transform">
-                                <i class="fa-brands fa-discord text-2xl"></i>
-                            </div>
-                            <h4 class="text-xl font-semibold text-white">Discord Fetcher</h4>
-                        </div>
-                        <span class="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full border border-green-500/30">Active</span>
-                    </div>
-                    
-                    <div class="mt-6 border-t border-gray-800 pt-5">
-                        <label class="text-xs text-gray-400 mb-2 block font-mono uppercase tracking-wider">Test Media URL</label>
-                        <div class="flex gap-2">
-                            <input type="text" id="discordUrl" placeholder="https://cdn.discordapp.com/..." class="w-full bg-black/50 border border-gray-700 rounded-lg py-3 px-4 text-sm focus:outline-none focus:border-indigo-500 text-gray-300 transition-colors">
-                            <button id="testDiscordBtn" class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-lg text-sm font-semibold transition-colors flex items-center justify-center min-w-[100px]">
-                                Test
-                            </button>
-                        </div>
-                        
-                        <div id="discordResultBox" class="hidden mt-4 bg-[#050505] border border-gray-800 rounded-xl p-4 overflow-x-auto shadow-inner transition-all duration-300">
-                            <div class="flex justify-between items-center mb-2 border-b border-gray-800 pb-2">
-                                <span class="text-xs text-gray-500 font-mono">Response JSON</span>
-                                <div class="w-2 h-2 rounded-full bg-gray-500" id="discordStatusDot"></div>
-                            </div>
-                            <pre><code id="discordResult" class="text-xs font-mono leading-relaxed"></code></pre>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <footer class="border-t border-glassBorder py-8 relative z-10 text-center">
-        <p class="text-gray-500 text-sm">© 2026 WINYUK API. Built for Next-Gen Bots.</p>
-    </footer>
-
-    <script src="js/script.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
