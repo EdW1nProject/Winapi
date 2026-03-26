@@ -292,8 +292,7 @@
 <pre><code id="apiCode"><span class="sy-cm">// Menghubungkan WINYUK API dengan Fetch</span>
 <span class="sy-kw">const</span> <span class="sy-fn">fetchWinyukData</span> = <span class="sy-kw">async</span> (targetUrl) => {
     <span class="sy-kw">try</span> {
-        <span class="sy-cm">// Ganti dengan domain Vercel Anda</span>
-        <span class="sy-kw">const</span> apiUrl = <span class="sy-st">`/api/tiktok?url=${encodeURIComponent(targetUrl)}`</span>;
+        <span class="sy-kw">const</span> apiUrl = <span class="sy-st">`https://winapi-red.vercel.app/api/tiktok?url=${encodeURIComponent(targetUrl)}`</span>;
         
         <span class="sy-kw">const</span> response = <span class="sy-kw">await</span> <span class="sy-fn">fetch</span>(apiUrl);
         <span class="sy-kw">const</span> data = <span class="sy-kw">await</span> response.<span class="sy-fn">json</span>();
