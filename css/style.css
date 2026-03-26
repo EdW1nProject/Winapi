@@ -1,5 +1,9 @@
-/* Custom Animations & Utilities */
+/* =========================================
+   FILE: css/style.css
+   Custom Styling & Animations untuk WINYUK API
+   ========================================= */
 
+/* --- 1. ANIMASI GRADASI TEKS --- */
 .animate-gradient {
     background-size: 200% auto;
     animation: gradientText 3s linear infinite;
@@ -10,6 +14,7 @@
     100% { background-position: 200% center; }
 }
 
+/* --- 2. ANIMASI BACKGROUND GLOW (BLOB) --- */
 .animate-blob {
     animation: blob 7s infinite;
 }
@@ -25,7 +30,7 @@
     100% { transform: translate(0px, 0px) scale(1); }
 }
 
-/* Scroll Fade In Animation */
+/* --- 3. ANIMASI SCROLL FADE IN --- */
 .fade-in-up {
     opacity: 0;
     transform: translateY(30px);
@@ -40,7 +45,7 @@
 .delay-100 { transition-delay: 100ms; }
 .delay-200 { transition-delay: 200ms; }
 
-/* Custom Scrollbar */
+/* --- 4. CUSTOM SCROLLBAR PREMIUM --- */
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -51,10 +56,23 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #333;
+    background: #262626; /* Warna abu-abu gelap */
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #6b21a8; /* Purple hover */
+    background: #9333ea; /* Warna ungu saat kursor diarahkan ke scrollbar */
+}
+
+/* --- 5. SWEETALERT2 OVERRIDES (Pop-up Mewah) --- */
+/* Memastikan pop-up SweetAlert selalu berada di atas navbar dan modal */
+div:where(.swal2-container) {
+    z-index: 9999 !important;
+}
+
+/* Membuat background SweetAlert membaur dengan tema glassmorphism */
+.swal2-popup {
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 0 40px rgba(168, 85, 247, 0.15) !important;
+    border-radius: 1.5rem !important;
 }
