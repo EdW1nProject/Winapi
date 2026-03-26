@@ -1,84 +1,72 @@
-// File: js/register.js
-
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Jika sudah login, tendang langsung ke dashboard
+    // Jika sudah login, langsung ke dashboard
     if (localStorage.getItem('winyuk_session')) {
         window.location.href = 'dashboard.html';
         return;
     }
 
     const registerForm = document.getElementById('registerForm');
+    
+    // Proteksi: Cek apakah ID form di HTML sudah benar
+    if (!registerForm) {
+        console.error("Form pendaftaran tidak ditemukan!");
+        return;
+    }
+
     const regUsername = document.getElementById('regUsername');
     const regPassword = document.getElementById('regPassword');
 
-    // --- FUNGSI DATABASE LOKAL ---
-    // Mengambil data user yang sudah ada
-    function getDB() { 
-        return JSON.parse(localStorage.getItem('winyuk_db')) || []; 
-    }
+    function getDB() { return JSON.parse(localStorage.getItem('winyuk_db')) || []; }
+    function saveDB(data) { localStorage.setItem('winyuk_db', JSON.stringify(data)); }
     
-    // Menyimpan data user baru
-    function saveDB(data) { 
-        localStorage.setItem('winyuk_db', JSON.stringify(data)); 
-    }
-    
-    // Fungsi Pintar: Membuat API Key Otomatis
     function generateApiKey() {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         const randomString = Array.from({length: 24}, () => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
         return "WINYUK-" + randomString;
     }
 
-    // --- PROSES KLIK TOMBOL DAFTAR ---
     registerForm.addEventListener('submit', (e) => {
-        e.preventDefault(); // Cegah halaman reload
+        e.preventDefault(); // Wajib agar web tidak reload
         
         const newUsername = regUsername.value.trim();
         const newPassword = regPassword.value.trim();
         const db = getDB();
 
-        // 1. Cek apakah username sudah dipakai orang lain
         const isExist = db.some(user => user.username === newUsername);
         
         if (isExist) {
-            // Jika sudah ada, munculkan error
             Swal.fire({ 
                 title: 'Username Terpakai!', 
-                text: 'Silakan pilih username yang lain ya.', 
+                text: 'Silakan pilih username yang lain.', 
                 icon: 'warning', 
-                background: '#1a1a1a', 
-                color: '#fff', 
-                confirmButtonColor: '#ec4899' // Pink color
+                background: '#1a1a1a', color: '#fff', confirmButtonColor: '#ec4899' 
             });
         } else {
-            // 2. Jika belum ada, buat akun baru
+            // Buat akun
             const newUser = { 
                 username: newUsername, 
                 password: newPassword, 
-                apikey: generateApiKey() // Generate key langsung di sini!
+                apikey: generateApiKey() 
             };
             
-            // Masukkan ke database dan simpan
             db.push(newUser);
             saveDB(db);
-            
-            // 3. Beri sesi login agar tidak perlu login ulang
             localStorage.setItem('winyuk_session', newUsername);
             
-            // 4. Tampilkan pesan sukses dan pindahkan ke dashboard
+            // Munculkan notifikasi sukses
             Swal.fire({
                 title: 'Registrasi Berhasil!',
-                text: 'API Key Anda telah dibuat. Mengarahkan ke Dashboard...',
+                text: 'API Key Anda telah dibuat. Mengarahkan...',
                 icon: 'success',
-                timer: 2000,
                 showConfirmButton: false,
-                background: '#1a1a1a', 
-                color: '#fff'
-            }).then(() => {
-                // Arahkan ke halaman utama API Key
-                window.location.href = 'dashboard.html';
+                background: '#1a1a1a', color: '#fff'
             });
+
+            // PAKSA PINDAH HALAMAN SETELAH 1.5 DETIK
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 1500);
         }
     });
 });
