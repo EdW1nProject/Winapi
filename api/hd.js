@@ -10,35 +10,38 @@ export default async function handler(req, res) {
             return res.status(400).json({ success: false, message: 'Payload gambar kosong.' });
         }
 
-        // 1. Ekstrak Base64 menjadi Buffer biner
+        // 1. Bersihkan header Base64 dari Frontend
         const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
-        const buffer = Buffer.from(base64Data, 'base64');
 
-        // --- FUNGSI BANTUAN: Upload Super Cepat ke TmpFiles ---
-        // Kita pakai TmpFiles karena tidak memblokir Vercel dan langsung memberikan direct link
-        const uploadImage = async (imgBuffer, fileName) => {
-            const formData = new FormData();
-            // Menggunakan Blob native untuk menghindari error perakitan Buffer manual
-            formData.append('file', new Blob([imgBuffer], { type: 'image/jpeg' }), fileName);
-            
-            const res = await fetch('https://tmpfiles.org/api/v1/upload', {
+        // --- FUNGSI BANTUAN: Upload Base64 Langsung ke Imgur (Anti-Blokir) ---
+        // Kita tidak pakai FormData biner lagi, murni teks URL-Encoded!
+        const uploadToImgur = async (base64String) => {
+            const params = new URLSearchParams();
+            params.append('image', base64String);
+            params.append('type', 'base64');
+
+            const res = await fetch('https://api.imgur.com/3/image', {
                 method: 'POST',
-                body: formData
+                headers: {
+                    // Ini adalah Public Client-ID Imgur untuk upload anonim (Aman dipakai)
+                    'Authorization': 'Client-ID 546c25a59c58ad7',
+                    'Accept': 'application/json'
+                },
+                body: params
             });
-            
+
             const data = await res.json();
-            if (data?.data?.url) {
-                // TmpFiles memberikan link web (view). Kita ubah regex-nya menjadi direct link download (/dl/)
-                return data.data.url.replace('tmpfiles.org/', 'tmpfiles.org/dl/');
+            if (data.success) {
+                return data.data.link; // Mengembalikan URL langsung (misal: https://i.imgur.com/xyz.jpg)
             }
-            throw new Error('Server hosting sementara menolak gambar.');
+            throw new Error(data.data?.error || 'Server Imgur menolak gambar.');
         };
 
-        // 2. Upload gambar asli (buram) untuk mendapatkan URL
-        const blurUrl = await uploadImage(buffer, 'winyuk_blur.jpg');
+        // 2. Upload gambar asli (buram) ke Imgur
+        const blurUrl = await uploadToImgur(base64Data);
 
-        // 3. EKSEKUSI API REMINI (Pembuktian!)
-        // Kita tembak URL gambar buram ke AI Ryzendesu (Remini API)
+        // 3. EKSEKUSI API REMINI (Ryzendesu)
+        // Kirim URL Imgur tadi ke mesin AI Remini
         const reminiApiUrl = `https://api.ryzendesu.vip/api/ai/remini?url=${encodeURIComponent(blurUrl)}`;
         const aiResponse = await fetch(reminiApiUrl);
         
@@ -46,27 +49,29 @@ export default async function handler(req, res) {
             throw new Error('Mesin AI Remini sedang sibuk atau offline.');
         }
 
-        // Kita buat sistem pintar: Cek apakah AI mengembalikan JSON atau langsung File Gambar mentah
-        let hdBuffer;
+        // 4. Ambil hasil HD dari Remini dan ubah kembali menjadi Base64
+        let hdBase64;
         const contentType = aiResponse.headers.get('content-type') || '';
         
         if (contentType.includes('application/json')) {
+            // Jika Remini membalas dengan JSON
             const aiData = await aiResponse.json();
-            // Jika mengembalikan JSON, kita ekstrak URL-nya dan download ulang
             const targetUrl = aiData.url || aiData.data;
             if (!targetUrl) throw new Error('Respon AI tidak valid.');
             
             const hdRes = await fetch(targetUrl);
-            hdBuffer = Buffer.from(await hdRes.arrayBuffer());
+            const hdBuffer = await hdRes.arrayBuffer();
+            hdBase64 = Buffer.from(hdBuffer).toString('base64');
         } else {
-            // Jika AI langsung mengirim gambar mentah
-            hdBuffer = Buffer.from(await aiResponse.arrayBuffer());
+            // Jika Remini langsung membalas dengan File Gambar
+            const hdBuffer = await aiResponse.arrayBuffer();
+            hdBase64 = Buffer.from(hdBuffer).toString('base64');
         }
 
-        // 4. Upload gambar hasil HD ke server untuk mendapatkan URL permanen final
-        const finalHdUrl = await uploadImage(hdBuffer, 'winyuk_remini_hd.jpg');
+        // 5. Upload hasil HD (Base64) kembali ke Imgur untuk dapat URL Permanen
+        const finalHdUrl = await uploadToImgur(hdBase64);
 
-        // 5. Berhasil! Kirim URL HD ke Frontend
+        // 6. Berhasil! Kirim URL HD ke Frontend
         return res.status(200).json({
             success: true,
             url: finalHdUrl,
