@@ -1,73 +1,83 @@
 export default async function handler(req, res) {
+    // Keamanan dasar
     if (req.method !== 'POST') {
-        return res.status(405).json({ success: false, message: 'Gunakan method POST.' });
+        return res.status(405).json({ success: false, message: 'Metode tidak diizinkan. Gunakan POST.' });
     }
 
     try {
         const { image } = req.body;
-        if (!image) return res.status(400).json({ success: false, message: 'Payload gambar kosong.' });
+        if (!image) {
+            return res.status(400).json({ success: false, message: 'Payload gambar kosong.' });
+        }
 
-        // 1. Ekstrak data mentah Base64
+        // 1. Ekstrak Base64 menjadi Buffer biner
         const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
-        const originalBuffer = Buffer.from(base64Data, 'base64');
+        const buffer = Buffer.from(base64Data, 'base64');
 
-        // --- FUNGSI BANTUAN: Upload Buffer ke Catbox ---
-        const uploadToCatbox = async (bufferData, filename) => {
-            const boundary = '----WinyukCatboxBoundary' + Date.now().toString(16);
-            const header = Buffer.from(
-                `--${boundary}\r\nContent-Disposition: form-data; name="reqtype"\r\n\r\nfileupload\r\n` +
-                `--${boundary}\r\nContent-Disposition: form-data; name="fileToUpload"; filename="${filename}"\r\nContent-Type: image/jpeg\r\n\r\n`, 'utf-8'
-            );
-            const footer = Buffer.from(`\r\n--${boundary}--\r\n`, 'utf-8');
-            const payload = Buffer.concat([header, bufferData, footer]);
-
-            const uploadRes = await fetch('https://catbox.moe/user/api.php', {
+        // --- FUNGSI BANTUAN: Upload Super Cepat ke TmpFiles ---
+        // Kita pakai TmpFiles karena tidak memblokir Vercel dan langsung memberikan direct link
+        const uploadImage = async (imgBuffer, fileName) => {
+            const formData = new FormData();
+            // Menggunakan Blob native untuk menghindari error perakitan Buffer manual
+            formData.append('file', new Blob([imgBuffer], { type: 'image/jpeg' }), fileName);
+            
+            const res = await fetch('https://tmpfiles.org/api/v1/upload', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': `multipart/form-data; boundary=${boundary}`,
-                    'Content-Length': payload.length.toString(),
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
-                },
-                body: payload
+                body: formData
             });
-            return await uploadRes.text();
+            
+            const data = await res.json();
+            if (data?.data?.url) {
+                // TmpFiles memberikan link web (view). Kita ubah regex-nya menjadi direct link download (/dl/)
+                return data.data.url.replace('tmpfiles.org/', 'tmpfiles.org/dl/');
+            }
+            throw new Error('Server hosting sementara menolak gambar.');
         };
 
-        // 2. Upload gambar asli (buram) ke server untuk mendapatkan URL publik
-        const originalUrl = await uploadToCatbox(originalBuffer, 'winyuk_blur.jpg');
-        
-        if (!originalUrl.startsWith('https://')) {
-            return res.status(500).json({ success: false, message: 'Gagal mengunggah gambar awal ke server.' });
-        }
+        // 2. Upload gambar asli (buram) untuk mendapatkan URL
+        const blurUrl = await uploadImage(buffer, 'winyuk_blur.jpg');
 
-        // 3. PROSES AI HD (Remini Upscaler Public API)
-        // Kita kirim URL gambar buram ke AI, dan AI akan mengembalikan foto yang tajam
-        const aiResponse = await fetch(`https://api.ryzendesu.vip/api/ai/remini?url=${encodeURIComponent(originalUrl)}`);
+        // 3. EKSEKUSI API REMINI (Pembuktian!)
+        // Kita tembak URL gambar buram ke AI Ryzendesu (Remini API)
+        const reminiApiUrl = `https://api.ryzendesu.vip/api/ai/remini?url=${encodeURIComponent(blurUrl)}`;
+        const aiResponse = await fetch(reminiApiUrl);
         
         if (!aiResponse.ok) {
-            return res.status(500).json({ success: false, message: 'Server AI sedang sibuk. Coba beberapa saat lagi.' });
+            throw new Error('Mesin AI Remini sedang sibuk atau offline.');
         }
 
-        // Ambil hasil gambar HD dalam bentuk biner (Buffer)
-        const hdArrayBuffer = await aiResponse.arrayBuffer();
-        const hdBuffer = Buffer.from(hdArrayBuffer);
-
-        // 4. Upload gambar hasil HD ke server untuk mendapatkan URL permanen
-        const finalHdUrl = await uploadToCatbox(hdBuffer, 'winyuk_hd_clear.jpg');
-
-        if (!finalHdUrl.startsWith('https://')) {
-            return res.status(500).json({ success: false, message: 'Gagal mengunggah hasil HD ke server.' });
+        // Kita buat sistem pintar: Cek apakah AI mengembalikan JSON atau langsung File Gambar mentah
+        let hdBuffer;
+        const contentType = aiResponse.headers.get('content-type') || '';
+        
+        if (contentType.includes('application/json')) {
+            const aiData = await aiResponse.json();
+            // Jika mengembalikan JSON, kita ekstrak URL-nya dan download ulang
+            const targetUrl = aiData.url || aiData.data;
+            if (!targetUrl) throw new Error('Respon AI tidak valid.');
+            
+            const hdRes = await fetch(targetUrl);
+            hdBuffer = Buffer.from(await hdRes.arrayBuffer());
+        } else {
+            // Jika AI langsung mengirim gambar mentah
+            hdBuffer = Buffer.from(await aiResponse.arrayBuffer());
         }
 
-        // 5. Selesai! Kembalikan URL foto HD ke frontend
+        // 4. Upload gambar hasil HD ke server untuk mendapatkan URL permanen final
+        const finalHdUrl = await uploadImage(hdBuffer, 'winyuk_remini_hd.jpg');
+
+        // 5. Berhasil! Kirim URL HD ke Frontend
         return res.status(200).json({
             success: true,
             url: finalHdUrl,
-            message: 'Ajaib! Gambar berhasil diperjelas dengan AI Remini.'
+            message: 'Ajaib! Gambar berhasil diperjelas secara nyata dengan AI Remini.'
         });
 
     } catch (error) {
-        console.error("HD API Error:", error);
-        return res.status(500).json({ success: false, message: `Terjadi kegagalan sistem: ${error.message}` });
+        console.error("HD API Error:", error.message);
+        return res.status(500).json({ 
+            success: false, 
+            message: `Gagal diproses: ${error.message}` 
+        });
     }
 }
