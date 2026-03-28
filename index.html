@@ -10,7 +10,6 @@
             --bg-base: #020617;
             --bg-surface: rgba(15, 23, 42, 0.6);
             --grid-color: rgba(56, 189, 248, 0.04);
-            --border-glow: rgba(56, 189, 248, 0.2);
             --primary: #0ea5e9;
             --secondary: #8b5cf6;
             --accent: #f43f5e;
@@ -19,88 +18,44 @@
             --upload: #10b981;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --badge-get: #0ea5e9;
-            --badge-post: #f59e0b;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-base); color: var(--text-main);
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-base); color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif;
             min-height: 100vh; display: flex; flex-direction: column; align-items: center;
             overflow-x: hidden; position: relative; scroll-behavior: smooth;
         }
 
         /* --- BACKGROUND ANIMATION --- */
-        body::before {
-            content: ''; position: fixed; inset: 0;
-            background-image: 
-                linear-gradient(var(--grid-color) 1px, transparent 1px),
-                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-            background-size: 50px 50px; animation: panGrid 30s linear infinite; z-index: -2;
-        }
-        body::after {
-            content: ''; position: fixed; top: 0; left: 50%; width: 100vw; height: 100vh;
-            transform: translateX(-50%);
-            background: radial-gradient(circle at 50% 0%, rgba(14, 165, 233, 0.15), transparent 60%),
-                        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1), transparent 50%);
-            z-index: -1; pointer-events: none;
-        }
+        body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(var(--grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color) 1px, transparent 1px); background-size: 50px 50px; animation: panGrid 30s linear infinite; z-index: -2; }
+        body::after { content: ''; position: fixed; top: 0; left: 50%; width: 100vw; height: 100vh; transform: translateX(-50%); background: radial-gradient(circle at 50% 0%, rgba(14, 165, 233, 0.15), transparent 60%), radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1), transparent 50%); z-index: -1; pointer-events: none; }
 
         /* --- CYBER PRELOADER --- */
-        #preloader {
-            position: fixed; inset: 0; background-color: #000; z-index: 9999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 0.8s ease, visibility 0.8s ease; overflow: hidden;
-        }
+        #preloader { position: fixed; inset: 0; background-color: #000; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.8s ease, visibility 0.8s ease; overflow: hidden; }
         #preloader.fade-out { opacity: 0; visibility: hidden; }
         #matrix-rain { position: absolute; inset: 0; font-family: 'Fira Code', monospace; font-size: 14px; color: var(--primary); opacity: 0.2; pointer-events: none; }
-        
         .svg-text-regen { width: 350px; height: 80px; z-index: 2; filter: drop-shadow(0 0 15px var(--primary)); }
-        .svg-text-regen text {
-            font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 64px; text-transform: uppercase;
-            fill: none; stroke: var(--primary); stroke-width: 1.5; stroke-dasharray: 600; stroke-dashoffset: 600;
-            animation: drawText 2.5s ease-in-out forwards, fillText 1s ease-in-out 2.5s forwards;
-        }
+        .svg-text-regen text { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 64px; text-transform: uppercase; fill: none; stroke: var(--primary); stroke-width: 1.5; stroke-dasharray: 600; stroke-dashoffset: 600; animation: drawText 2.5s ease-in-out forwards, fillText 1s ease-in-out 2.5s forwards; }
         .loader-terminal { font-family: 'Fira Code', monospace; color: var(--primary); font-size: 1rem; margin-top: 20px; letter-spacing: 2px; z-index: 2; }
         .loader-terminal::after { content: '█'; animation: blink 1s infinite; }
 
         /* --- HEADER --- */
         header { text-align: center; padding: 5rem 2rem 2rem; animation: slideDown 1s cubic-bezier(0.16, 1, 0.3, 1) 3s forwards; opacity: 0; transform: translateY(-30px); }
-        h1 {
-            font-size: 4rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 0.5rem;
-            background: linear-gradient(to right, #38bdf8, #818cf8, #e879f9, #38bdf8);
-            background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: gradientShine 5s linear infinite;
-        }
+        h1 { font-size: 4rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 0.5rem; background: linear-gradient(to right, #38bdf8, #818cf8, #e879f9, #38bdf8); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: gradientShine 5s linear infinite; }
         .subtitle { font-family: 'Fira Code', monospace; color: var(--text-muted); font-size: 1rem; }
         .subtitle span { color: var(--primary); }
 
         /* --- MAIN GLASS CONTAINER --- */
-        .wrapper {
-            width: 100%; max-width: 700px; padding: 0 1.5rem; margin-bottom: 4rem;
-            opacity: 0; animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 3.2s forwards;
-        }
-        .container {
-            background: var(--bg-surface); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-            border: 1px solid var(--card-border); border-radius: 24px; padding: 2.5rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
-            position: relative; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .container:hover { transform: translateY(-5px); box-shadow: 0 30px 60px -12px rgba(14, 165, 233, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.1); }
-        .container::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
-            background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
-            opacity: 0.5;
-        }
+        .wrapper { width: 100%; max-width: 700px; padding: 0 1.5rem; margin-bottom: 4rem; opacity: 0; animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 3.2s forwards; }
+        .container { background: var(--bg-surface); backdrop-filter: blur(24px); border: 1px solid var(--card-border); border-radius: 24px; padding: 2.5rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); position: relative; overflow: hidden; transition: 0.3s ease; }
+        .container:hover { transform: translateY(-5px); box-shadow: 0 30px 60px -12px rgba(14, 165, 233, 0.15); }
+        .container::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent); opacity: 0.5; }
 
         /* --- MODERN TABS --- */
-        .tabs { display: flex; gap: 0.5rem; margin-bottom: 2rem; background: rgba(0,0,0,0.3); padding: 0.4rem; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); }
-        .tab-btn {
-            flex: 1; padding: 0.8rem; border: none; background: transparent; color: var(--text-muted); font-weight: 600;
-            border-radius: 12px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-size: 0.95rem;
-        }
+        .tabs { display: flex; gap: 0.4rem; margin-bottom: 2rem; background: rgba(0,0,0,0.3); padding: 0.4rem; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); flex-wrap: wrap; }
+        .tab-btn { flex: 1; padding: 0.8rem; border: none; background: transparent; color: var(--text-muted); font-weight: 600; border-radius: 12px; cursor: pointer; transition: 0.3s; font-size: 0.9rem; white-space: nowrap; }
         .tab-btn:hover { color: var(--text-main); background: rgba(255,255,255,0.05); }
         .tab-btn.active { background: rgba(255,255,255,0.1); color: var(--text-main); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .tab-btn.active[data-target="tiktok"] { border-bottom: 2px solid var(--tiktok); }
@@ -109,126 +64,98 @@
 
         /* --- INPUTS --- */
         .input-group { margin-bottom: 1.5rem; }
-        input[type="text"] {
-            width: 100%; padding: 1.2rem 1.5rem; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px; color: white; font-size: 1rem; font-family: 'Fira Code', monospace;
-            transition: all 0.3s ease;
-        }
-        input[type="text"]:focus {
-            outline: none; border-color: var(--primary); background: rgba(0,0,0,0.6);
-            box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
-        }
+        input[type="text"] { width: 100%; padding: 1.2rem 1.5rem; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; color: white; font-size: 1rem; font-family: 'Fira Code', monospace; transition: 0.3s; }
+        input[type="text"]:focus { outline: none; border-color: var(--primary); background: rgba(0,0,0,0.6); box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1); }
 
         /* --- DRAG & DROP ZONE --- */
-        .file-upload-wrapper {
-            width: 100%; padding: 3rem 2rem; border: 2px dashed rgba(255,255,255,0.15); border-radius: 16px;
-            text-align: center; cursor: pointer; transition: all 0.3s ease; background: rgba(0,0,0,0.2);
-            display: none; margin-bottom: 1.5rem; position: relative;
-        }
+        .file-upload-wrapper { width: 100%; padding: 3rem 2rem; border: 2px dashed rgba(255,255,255,0.15); border-radius: 16px; text-align: center; cursor: pointer; transition: 0.3s; background: rgba(0,0,0,0.2); display: none; margin-bottom: 1.5rem; position: relative; }
         .file-upload-wrapper:hover { border-color: var(--upload); background: rgba(16, 185, 129, 0.05); }
         .file-upload-wrapper input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
-        .file-icon { font-size: 3rem; margin-bottom: 1rem; transition: transform 0.3s; }
+        .file-icon { font-size: 3rem; margin-bottom: 1rem; transition: 0.3s; color: var(--upload); }
         .file-upload-wrapper:hover .file-icon { transform: translateY(-5px); }
         .file-text { font-family: 'Plus Jakarta Sans'; color: var(--text-muted); font-size: 1rem; font-weight: 500;}
         .file-text span { color: var(--upload); font-weight: 800; }
 
         /* --- ACTION BUTTON --- */
-        .btn-process {
-            width: 100%; padding: 1.2rem; background: var(--text-main); color: var(--bg-base);
-            border: none; border-radius: 16px; font-size: 1.1rem; font-weight: 800; text-transform: uppercase;
-            letter-spacing: 1px; cursor: pointer; transition: all 0.3s ease; display: flex; justify-content: center; align-items: center;
-        }
+        .btn-process { width: 100%; padding: 1.2rem; background: var(--text-main); color: var(--bg-base); border: none; border-radius: 16px; font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; }
         .btn-process:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255,255,255,0.2); background: white; }
         .btn-process:active { transform: translateY(1px); }
         .loader { display: none; width: 24px; height: 24px; border: 3px solid rgba(0,0,0,0.1); border-bottom-color: #000; border-radius: 50%; animation: spin 0.8s linear infinite; }
 
         /* --- RESULTS AREA --- */
-        .result-box {
-            margin-top: 2rem; padding: 1.5rem; border-radius: 16px; background: rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.05); display: none; animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+        .result-box { margin-top: 2rem; padding: 1.5rem; border-radius: 16px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); display: none; animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
         .status-header { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1rem; margin-bottom: 1rem; }
-        .status-header h3 { color: var(--upload); font-family: 'Fira Code', monospace; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;}
-        .status-header h3::before { content: ''; width: 8px; height: 8px; background: var(--upload); border-radius: 50%; box-shadow: 0 0 10px var(--upload); }
-        
+        .status-header h3 { font-family: 'Fira Code', monospace; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;}
         .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; }
         .media-item { background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
         .media-item img, .media-item video { width: 100%; border-radius: 8px; aspect-ratio: 9/16; object-fit: cover; margin-bottom: 0.8rem; }
         .btn-download { display: block; width: 100%; padding: 0.8rem; background: rgba(255,255,255,0.05); color: white; text-align: center; text-decoration: none; font-weight: 600; border-radius: 8px; font-size: 0.9rem; transition: 0.3s; }
         .btn-download:hover { background: var(--primary); }
-
         .url-result { display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.5); padding: 0.8rem 1rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); margin-top: 1rem; }
         .url-text { font-family: 'Fira Code', monospace; color: var(--text-main); font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
         .btn-copy-url { background: rgba(255,255,255,0.1); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; }
         .btn-copy-url:hover { background: white; color: black; }
 
-        /* =========================================
-           --- API DOCUMENTATION SECTION (NEW) ---
-           ========================================= */
-        .api-docs-section {
-            width: 100%; max-width: 800px; padding: 0 1.5rem; margin: 2rem auto 6rem;
-            opacity: 0; animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 3.5s forwards;
-        }
+        /* --- API DOCUMENTATION SECTION --- */
+        .api-docs-section { width: 100%; max-width: 800px; padding: 0 1.5rem; margin: 2rem auto 6rem; opacity: 0; animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 3.5s forwards; }
         .section-header { text-align: left; margin-bottom: 2rem; border-bottom: 1px solid var(--card-border); padding-bottom: 1rem;}
         .section-header h2 { font-size: 2rem; font-weight: 800; color: white; margin-bottom: 0.5rem; }
         .section-header p { color: var(--text-muted); font-size: 1rem; }
-
         .docs-layout { display: flex; flex-direction: column; gap: 1.5rem; }
-        
         .docs-nav { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; }
         .docs-nav::-webkit-scrollbar { height: 4px; }
         .docs-nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
-        .doc-nav-btn {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); color: var(--text-muted);
-            padding: 0.6rem 1.2rem; border-radius: 20px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: 0.3s; white-space: nowrap;
-        }
+        .doc-nav-btn { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); color: var(--text-muted); padding: 0.6rem 1.2rem; border-radius: 20px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: 0.3s; white-space: nowrap; }
         .doc-nav-btn:hover { background: rgba(255,255,255,0.08); color: white; }
         .doc-nav-btn.active { background: white; color: black; border-color: white; }
-
-        .doc-card {
-            background: rgba(15, 23, 42, 0.4); border: 1px solid var(--card-border);
-            border-radius: 20px; overflow: hidden; backdrop-filter: blur(12px);
-        }
-        
-        /* Endpoint Bar */
-        .endpoint-bar {
-            display: flex; align-items: center; gap: 1rem; padding: 1.2rem 1.5rem;
-            background: rgba(0,0,0,0.4); border-bottom: 1px solid var(--card-border);
-        }
-        .method-badge {
-            font-family: 'Fira Code', monospace; font-size: 0.85rem; font-weight: 800;
-            padding: 0.3rem 0.8rem; border-radius: 6px; letter-spacing: 1px;
-        }
+        .doc-card { background: rgba(15, 23, 42, 0.4); border: 1px solid var(--card-border); border-radius: 20px; overflow: hidden; backdrop-filter: blur(12px); }
+        .endpoint-bar { display: flex; align-items: center; gap: 1rem; padding: 1.2rem 1.5rem; background: rgba(0,0,0,0.4); border-bottom: 1px solid var(--card-border); flex-wrap: wrap;}
+        .method-badge { font-family: 'Fira Code', monospace; font-size: 0.85rem; font-weight: 800; padding: 0.3rem 0.8rem; border-radius: 6px; letter-spacing: 1px; }
         .method-badge.get { background: rgba(14, 165, 233, 0.15); color: var(--badge-get); border: 1px solid rgba(14, 165, 233, 0.3); }
         .method-badge.post { background: rgba(245, 158, 11, 0.15); color: var(--badge-post); border: 1px solid rgba(245, 158, 11, 0.3); }
-        .endpoint-url { font-family: 'Fira Code', monospace; color: var(--text-main); font-size: 1rem; word-break: break-all; }
-
-        /* Description & Params */
         .doc-info { padding: 1.5rem; border-bottom: 1px solid var(--card-border); }
         .doc-info h4 { color: white; font-size: 1.1rem; margin-bottom: 0.5rem; }
         .doc-info p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem; }
-        
-        /* Code Window */
         .code-window { background: #0d1117; }
-        .code-header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 0.8rem 1.5rem; background: #161b22; border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
+        .code-header { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 1.5rem; background: #161b22; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .code-lang { font-family: 'Fira Code', monospace; color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; }
-        .btn-copy-code {
-            background: transparent; color: var(--text-muted); border: 1px solid rgba(255,255,255,0.1);
-            padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.8rem; font-family: 'Fira Code', monospace; cursor: pointer; transition: 0.2s;
-        }
+        .btn-copy-code { background: transparent; color: var(--text-muted); border: 1px solid rgba(255,255,255,0.1); padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.8rem; font-family: 'Fira Code', monospace; cursor: pointer; transition: 0.2s; }
         .btn-copy-code:hover { background: rgba(255,255,255,0.1); color: white; }
         .code-content { padding: 1.5rem; overflow-x: auto; font-family: 'Fira Code', monospace; font-size: 0.9rem; line-height: 1.6; color: #e6edf3; }
+        .sy-kw { color: #ff7b72; } .sy-fn { color: #d2a8ff; } .sy-st { color: #a5d6ff; } .sy-cm { color: #8b949e; font-style: italic; } .sy-ob { color: #79c0ff; } .sy-vr { color: #c9d1d9; }
 
-        /* Syntax Highlighting (VS Code Style) */
-        .sy-kw { color: #ff7b72; } /* Keyword */
-        .sy-fn { color: #d2a8ff; } /* Function */
-        .sy-st { color: #a5d6ff; } /* String */
-        .sy-cm { color: #8b949e; font-style: italic; } /* Comment */
-        .sy-ob { color: #79c0ff; } /* Object Key */
-        .sy-vr { color: #c9d1d9; } /* Variable */
+        /* =========================================
+           --- FLOATING WHATSAPP BUTTON (PREMIUM) ---
+           ========================================= */
+        .whatsapp-float {
+            position: fixed; bottom: 35px; right: 35px; width: 60px; height: 60px;
+            background: linear-gradient(135deg, #25D366, #128C7E); color: white;
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            text-decoration: none; box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+            z-index: 1000; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: pulse-wa 2s infinite;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.15) translateY(-5px);
+            box-shadow: 0 15px 30px rgba(37, 211, 102, 0.5);
+            background: linear-gradient(135deg, #28E16D, #149C8D);
+        }
+        .whatsapp-float svg { width: 35px; height: 35px; fill: currentColor; transition: transform 0.4s ease; }
+        .whatsapp-float:hover svg { transform: rotate(15deg) scale(1.1); }
+
+        .whatsapp-float::before {
+            content: 'Hubungi Developer'; position: absolute; right: 75px; top: 50%;
+            transform: translateY(-50%) translateX(20px); background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: white;
+            padding: 10px 18px; border-radius: 14px; font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.9rem; font-weight: 600; white-space: nowrap; opacity: 0; visibility: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); pointer-events: none;
+        }
+        .whatsapp-float:hover::before { opacity: 1; visibility: visible; transform: translateY(-50%) translateX(0); }
+
+        @keyframes pulse-wa { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6); } 70% { box-shadow: 0 0 0 18px rgba(37, 211, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
+        @media (max-width: 600px) { .whatsapp-float { bottom: 20px; right: 20px; width: 55px; height: 55px; } .whatsapp-float::before { display: none; } }
 
         /* --- KEYFRAMES --- */
         @keyframes panGrid { 0% { background-position: 0 0; } 100% { background-position: 50px 50px; } }
@@ -238,10 +165,8 @@
         @keyframes slideDown { to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
         @keyframes gradientShine { to { background-position: 200% center; } }
-        @keyframes floatContainer { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
         @keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         @keyframes spin { to { transform: rotate(360deg); } }
-
     </style>
 </head>
 <body>
@@ -268,7 +193,7 @@
             </div>
 
             <div class="input-group" id="urlInputContainer">
-                <input type="text" id="urlInput" placeholder="Masukkan URL TikTok di sini..." autocomplete="off">
+                <input type="text" id="urlInput" placeholder="Masukkan URL Video TikTok..." autocomplete="off">
             </div>
 
             <div class="file-upload-wrapper" id="fileUploadContainer">
@@ -298,11 +223,15 @@
                 <button class="doc-nav-btn" onclick="loadDoc('discord')">Discord Extractor</button>
                 <button class="doc-nav-btn" onclick="loadDoc('upload')">Image Hosting</button>
             </div>
-
-            <div class="doc-card" id="docCard">
-                </div>
+            <div class="doc-card" id="docCard"></div>
         </div>
     </div>
+
+    <a href="https://wa.me/6282324542524?text=Halo%20Winyuk" class="whatsapp-float" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+    </a>
 
     <script>
         // =========================================
@@ -313,7 +242,6 @@
             const matrixRain = document.getElementById('matrix-rain');
             const loaderText = document.getElementById('loader-text-val');
             
-            // Matrix Rain Effect
             const chars = '0123456789ABCDEF{}[]<>/\\';
             const columns = Math.floor(window.innerWidth / 20);
             for (let i = 0; i < columns; i++) {
@@ -336,14 +264,12 @@
             style.innerHTML = `@keyframes matrixDrop { to { transform: translateY(${window.innerHeight + 100}px); } }`;
             document.head.appendChild(style);
 
-            // Terminal Text Sequence
             const messages = [ "> MENGAKSES_SISTEM...", "> BYPASS_KEAMANAN_SELESAI...", "> API_ENDPOINT_TERHUBUNG...", "> SYSTEM_READY_" ];
             let msgIndex = 0;
             const msgInterval = setInterval(() => { 
                 msgIndex++; if(msgIndex < messages.length) loaderText.innerText = messages[msgIndex]; 
             }, 800);
 
-            // Hide Preloader
             setTimeout(() => { 
                 clearInterval(msgInterval); preloader.classList.add('fade-out'); 
                 setTimeout(() => { preloader.style.display = 'none'; }, 800); 
@@ -374,8 +300,8 @@
             } else {
                 urlContainer.style.display = 'block'; fileContainer.style.display = 'none';
                 urlInput.placeholder = mode === 'tiktok' ? 'Masukkan URL Video TikTok...' : 'Masukkan URL Attachment Discord...';
-                urlInput.value = '';
                 btnText.innerText = 'EKSTRAK DATA';
+                urlInput.value = '';
                 document.getElementById('fileInput').value = '';
                 document.getElementById('fileText').innerHTML = 'Tarik & Lepas Foto, atau <span id="fileSpan">Jelajahi</span>';
             }
@@ -525,21 +451,19 @@
                 method: "POST", methodClass: "post",
                 endpoint: "/api/upload",
                 title: "Hosting Gambar Permanen",
-                desc: "Kirim string gambar berformat Base64 di dalam body (JSON). API akan membalas dengan URL publik permanen (Anti-CORS).",
+                desc: "Kirim string gambar berformat Base64 di dalam body (JSON). API akan membalas dengan URL publik permanen.",
                 rawCode: `const uploadFoto = async (base64) => {\n  const res = await fetch('/api/upload', {\n    method: 'POST',\n    headers: { 'Content-Type': 'application/json' },\n    body: JSON.stringify({ image: base64 })\n  });\n  const data = await res.json();\n  console.log(data.url);\n};`,
                 htmlCode: `<span class="sy-kw">const</span> <span class="sy-fn">uploadFoto</span> = <span class="sy-kw">async</span> (<span class="sy-vr">base64</span>) => {\n  <span class="sy-kw">const</span> <span class="sy-vr">res</span> = <span class="sy-kw">await</span> <span class="sy-fn">fetch</span>(<span class="sy-st">'/api/upload'</span>, {\n    <span class="sy-ob">method</span>: <span class="sy-st">'POST'</span>,\n    <span class="sy-ob">headers</span>: { <span class="sy-st">'Content-Type'</span>: <span class="sy-st">'application/json'</span> },\n    <span class="sy-ob">body</span>: <span class="sy-vr">JSON</span>.<span class="sy-fn">stringify</span>({ <span class="sy-ob">image</span>: <span class="sy-vr">base64</span> })\n  });\n  <span class="sy-kw">const</span> <span class="sy-vr">data</span> = <span class="sy-kw">await</span> <span class="sy-vr">res</span>.<span class="sy-fn">json</span>();\n  <span class="sy-vr">console</span>.<span class="sy-fn">log</span>(<span class="sy-vr">data</span>.<span class="sy-ob">url</span>);\n};`
             }
         };
 
         function loadDoc(key) {
-            // Update Active Tab UI
             document.querySelectorAll('.doc-nav-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelector(`.doc-nav-btn[onclick="loadDoc('${key}')"]`).classList.add('active');
 
             const doc = apiDocs[key];
             const docCard = document.getElementById('docCard');
             
-            // Render the Card Content
             docCard.innerHTML = `
                 <div class="endpoint-bar">
                     <span class="method-badge ${doc.methodClass}">${doc.method}</span>
@@ -568,9 +492,7 @@
             });
         }
 
-        // Load Default Doc on Startup
         loadDoc('tiktok');
-
     </script>
 </body>
 </html>
